@@ -1,0 +1,92 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import '@assets/global.css';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" href="/favicon/favicon.ico" />
+<link rel="icon" type="image/png" href="/favicon/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/favicon/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/favicon/android-chrome-192x192.png" sizes="192x192" />
+<link rel="icon" type="image/png" href="/favicon/android-chrome-512x512.png" sizes="512x512" />
+<link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<ViewTransitions />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<script>
+  function colorTheme() {
+    let theme = localStorage.getItem('theme') ?? 'system';
+
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+
+      theme = systemTheme;
+    }
+
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
+
+  function selectButton() {
+    const select = document.getElementById('themeSwitch') as HTMLSelectElement;
+    if (!select) return;
+
+    select.value = localStorage.getItem('theme') || 'system';
+
+    select.addEventListener('change', (event: Event) => {
+      const select = event.target as HTMLSelectElement;
+      localStorage.setItem('theme', select.value);
+      colorTheme();
+    });
+  }
+
+  colorTheme();
+  document.addEventListener('astro:after-swap', () => {
+    colorTheme();
+    selectButton();
+  });
+
+</script>

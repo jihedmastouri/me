@@ -1,0 +1,166 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import { fade, slide } from 'astro:transitions';
+
+import { SITE_TITLE, SITE_DESCRIPTION, CATEGS } from 'src/consts';
+import { tags } from 'src/tags';
+
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import FormattedDate from '@components/FormattedDate.astro';
+import Icon from '@components/Icon.astro';
+import Shield from '@components/Shield.astro';
+import Paginator from '@components/Paginator.astro';
+import Card from '@components/Card.astro';
+
+type colEntry = CollectionEntry<'blog'>;
+
+const { selectedTag, selectedCateg, page, basePath } = Astro.props;
+
+const anim = {
+  old: {
+    name: 'slide',
+    duration: '0.2s',
+    easing: 'ease-in-out',
+    direction: 'left',
+  },
+  new: {
+    name: 'slide',
+    duration: '0.3s',
+    easing: 'ease-in-out',
+    direction: 'right',
+  }
+};
+
+const myFade = {
+  forwards: anim,
+  backwards: anim,
+};
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <div class="mx-auto box-border grid max-w-screen-xl px-2 md:grid-cols-4 grid-cols-1">
+      <main class="px-1 col-span-1 md:col-span-3 order-2 md:order-1">
+        <section>
+          <ul>
+            {
+              page.data.map((post: colEntry) => (
+                <>
+                  <li
+                    class="group my-3 box-border rounded-md p-2
+                            hover:bg-slate-100 dark:hover:bg-slate-700"
+                  >
+                    <a href={`/blog/${post.slug}/`} class="h-full w-full">
+                      <h3 class="my-0 text-3xl group-hover:text-sky-500">
+                        {post.data.title}
+                      </h3>
+                      <p class="mb-3 text-sm text-gray-500">
+                        <Icon
+                          icon="date"
+                          class="m-0 inline h-5 w-5 fill-gray-500"
+                        />
+                        Created: <FormattedDate date={post.data.pubDate} />
+                        {post.data.updatedDate && (
+                          <span>
+                            {' '}
+                            | Last update:{' '}
+                            <FormattedDate date={post.data.updatedDate} />
+                          </span>
+                        )}
+                      </p>
+                      <p>{post.data.description}</p>
+                    </a>
+                  </li>
+                  <hr class="my-2 h-0 opacity-50" />
+                </>
+              ))
+            }
+          </ul>
+        </section>
+        {
+        page.totalPages > 1 && (
+          <section class="mt-4">
+            <Paginator
+              length={page.lastPage}
+              currentUrl={page.url.current}
+              currentPage={page.currentPage}
+              firstUrl={`${basePath}`}
+              prevUrl={page.url.prev}
+              nextUrl={page.url.next}
+              lastUrl={`${basePath}/${page.lastPage}`}
+            />
+          </section>
+          )
+        }
+      </main>
+        <side
+          class="col-span-1 md:order-2 order-1"
+          transition:animate={myFade}
+          >
+          {
+            (selectedCateg || selectedTag) && (
+              <p class="text-sm mb-2 text-center">
+                👈 <a class="hover:text-sky-500 hover:underline" href="/blog">
+                  Clear/Go back to Blog
+                </a>
+              </p>
+            )
+          }
+          <Card>
+            {
+              (selectedCateg || selectedTag) && (
+                <>
+                  <h3 class="text-2xl text-center" >
+                    {`${selectedCateg ? selectedCateg : '' }${selectedTag ? '#' + selectedTag :''}`}
+                  </h3>
+                  <hr />
+                </>
+              )
+            }
+            <h4>Categories:</h4>
+            <div class="flex flex-wrap items-center justify-center gap-2 text-center">
+              {
+                CATEGS.map((categ) => (
+                <a
+                  class={`relative ${(selectedCateg === categ) && 'pointer-events-none'}`}
+                  href={`/blog/categs/${categ}`}
+                >
+                  <span class="absolute top-0 left-0 mt-1 ml-1 h-full w-full rounded bg-black dark:bg-slate-50"></span>
+                  <span
+                    class={
+                      `fold-bold relative inline-block h-full w-full rounded border-2
+                      border-black px-3 py-1 text-base font-bold text-black
+                      transition duration-100 hover:bg-sky-300 hover:text-white
+                      hover:dark:bg-sky-300 ${(selectedCateg === categ) ?
+                      'bg-sky-300 dark:bg-sky-300' : 'bg-white'}`
+                    }
+                  >{categ}</span>
+                </a>
+                ))
+              }
+            </div>
+            <h4> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
+            <div class="flex flex-wrap text-xs">
+              {tags.map((tag) => (
+                <a
+                  href={`/blog${ selectedCateg ? '/categs/' + selectedCateg : '' }/tags/${tag}`}
+                  class="transition-all duration-100 ease-in-out hover:translate-y-[-2px] mb-3"
+                >
+                  <Shield text={'#' + tag} />
+                </a>
+              ))}
+            </div>
+          </Card>
+      </side>
+    </div>
+    <Footer />
+  </body>
+</html>

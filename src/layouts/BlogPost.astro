@@ -1,0 +1,118 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { Image } from 'astro:assets';
+import { slide } from 'astro:transitions';
+
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Shield from '@components/Shield.astro';
+import FormattedDate from '@components/FormattedDate.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import Article from '@components/Article.astro';
+import Icon from '@components/Icon.astro';
+import Card from '@components/Card.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+  headings: MarkdownHeading[];
+};
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  tags,
+  category,
+  headings,
+  heroTitle
+} = Astro.props;
+
+const link = Astro.url;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+
+	<body>
+		<Header />
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mx-auto p-4 max-w-screen-xl">
+		<main
+      class="md:order-1 order-2 md:col-span-3"
+    >
+			<Article>
+					<div class="my-2">
+				    <h1 class="text-3xl">{title}</h1>
+						<div class="text-sm text-gray-800 dark:text-gray-300">
+							Published on <FormattedDate date={pubDate} />
+							{
+								updatedDate && (
+									<div class="last-updated-on">
+										Last updated on <FormattedDate date={updatedDate} />
+									</div>
+								)
+							}
+						</div>
+					</div>
+
+          <div class="hero-image mb-2">
+            {heroImage && <Image src={heroImage} alt={heroTitle} />}
+          </div>
+
+          <div class="prose lg:prose-xl">
+					  <slot />
+          </div>
+
+			</Article>
+      <Card>
+        <p>
+          Category: <a href={`/category/${category}`} class="hover:text-sky-400">{category}</a>
+        </p>
+        <hr>
+        <div>
+          Tags:
+          <span class="flex text-xs">
+            {
+              tags && tags.map((tag) => (
+                  <a href={`/tags/${tag}`} class="opacity-75 hover:opacity-100">
+                    <Shield
+                      text={"#" + tag} />
+                  </a>
+                )
+              )
+            }
+          </div>
+          <hr>
+          <p>Share this post:</p>
+            <a target="_blank" title="Share to Twitter"
+              href=`https://twitter.com/intent/tweet?text=${title}&original_referer=${link}&via=jihed_mastouri`>
+              <Icon  icon="twitter" folder="social" class="w-5 h-5 hover:fill-sky-500 dark:fill-gray-200" />
+            </a>
+            <a target="_blank" title="Share Through Mail" href=`mailto:?subject=${title}&body=${description}  ${link}`>
+              <Icon  icon="paper-plane-solid" folder="social" class="w-5 h-5 hover:fill-sky-500 dark:fill-gray-200" />
+            </a>
+        </div>
+      </Card>
+		</main>
+
+    <side
+      class="md:order-2 order-1 md:col-span-1 h-full"
+      transition:animate={slide({direction: 'right'})}
+    >
+      <TableOfContents headings={headings}/>
+    </side>
+    </div>
+
+		<Footer />
+	</body>
+</html>
+
+<style>
+  .hero-image {
+    margin-bottom: 1rem;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+  icon: string;
+  folder?: string;
+} & HTMLAttributes<'svg'>;
+
+const { icon, folder, ...attributes } = Astro.props;
+
+const { default: innerHTML } = await import(
+  folder
+    ? `../assets/icons/${folder}/${icon}.svg?raw`
+    : `../assets/icons/${icon}.svg?raw`
+);
+---
+
+<svg set:html={innerHTML} {...attributes} aria-hidden />

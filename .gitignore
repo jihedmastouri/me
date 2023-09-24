@@ -1,0 +1,21 @@
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+src/assets/photography/
+src/assets/blog-posts/
+src/content/blog/
+
+# environment variables
+.env
+.env.production
+
+# Dev
+.DS_Store
+.vercel
+.vscode

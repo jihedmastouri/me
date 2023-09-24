@@ -1,0 +1,25 @@
+<article>
+  <slot />
+
+  <style>
+    pre {
+      padding: 1.5em;
+      border-radius: 8px;
+    }
+    pre > code {
+      all: unset;
+    }
+
+    blockquote {
+      border-left: 4px solid var(--accent);
+      padding: 0 0 0 20px;
+      margin: 0px;
+      font-size: 1.333em;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgb(var(--gray-light));
+    }
+  </style>
+</article>

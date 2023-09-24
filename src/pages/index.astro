@@ -1,0 +1,41 @@
+---
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const birthday = new Date('1998-04-20');
+const today = new Date();
+let age = today.getFullYear() - birthday.getFullYear();
+
+const monthDiff = today.getMonth() - birthday.getMonth();
+if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="max-w-screen-lg mx-auto px-5">
+      <h1 class="text-4xl font-mono mt-10">Would you kindly,</h1>
+		  <div class="sm:ml-14 my-10">
+        <p> My name is <b>Jihed MASTOURI</b>, {age} y/o, and you can call me <em><b>Mj</b></em></p>
+        <p>
+          If you're here for my craft; I am a <code>Software Engineer</code> and an <code>Open Source</code>
+          enthusias. Here's my <a href="/about" class="text-sky-400">online resume</a>.
+        </p>
+        <p> I like playing video games or watching movies/anime for fun.</p>
+        <p> Sometimes, I take pictures: <a href="/photos" class="text-sky-400">Photography</a> </p>
+        <p> Take care, now. </p>
+        <p class="text-gray-500 dark:text-gray-300 whitespace-nowrap italic text-right">- <b>{SITE_TITLE}</b>.me</p>
+		  </div>
+		</main>
+		<Footer />
+	</body>
+</html>

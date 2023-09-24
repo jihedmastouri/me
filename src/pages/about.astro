@@ -1,0 +1,24 @@
+---
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+import { SITE_TITLE } from 'src/consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${SITE_TITLE} | About Me`}
+      description="My story as developer"
+    />
+  </head>
+  <body>
+    <Header />
+    <main class="mx-auto max-w-screen-md">
+      <h1 class="text-4xl">About Me</h1>
+    </main>
+    <Footer />
+  </body>
+</html>

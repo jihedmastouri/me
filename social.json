@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Mail",
+    "url": "mailto:jihedmastouri.inbox@gmail.com",
+    "image": "paper-plane-solid"
+  },
+  {
+    "name": "twitter",
+    "url": "https://twitter.com/jihed_mastouri",
+    "image": "twitter"
+  },
+  {
+    "name": "github",
+    "url": "https://github.com/jihedmastouri",
+    "image": "github"
+  },
+  {
+    "name": "linkedIn",
+    "url": "https://www.linkedin.com/in/jihedmastouri",
+    "image": "linkedin"
+  },
+  {
+    "name": "Instagram",
+    "url": "https://www.instagram.com/jihedmastouri",
+    "image": "instagram"
+  },
+  {
+    "name": "Instagram Photography",
+    "url": "https://www.instagram.com/moments.to.frame",
+    "image": "camera"
+  },
+  {
+    "name": "Dev",
+    "url": "https://dev.to/jihedmastouri",
+    "image": "dev"
+  }
+]

@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-image: url('/static/bg-light.png');
+  }
+
+  body {
+    @apply font-mono text-[16pt] leading-8;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      @apply text-[12pt];
+    }
+  }
+
+  body.dark {
+    background-image: url('/static/bg-dark.png');
+  }
+
+  body.dark {
+    @apply bg-slate-900 text-gray-200;
+  }
+
+  code {
+    @apply whitespace-nowrap rounded-md bg-slate-200 px-1 py-0 text-gray-800 dark:text-slate-800;
+  }
+
+  pre {
+    @apply rounded-md p-5;
+  }
+
+  pre > code {
+    all: unset;
+    background-color: none;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-50 shadow-md dark:bg-slate-800;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-md bg-slate-400;
+  }
+
+  ::-webkit-scrollbar,
+  pre::-webkit-scrollbar {
+    @apply h-2 w-2;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold capitalize;
+  }
+
+  q {
+    @apply my-4 border-l-4 border-slate-200 pl-4 font-serif text-xl italic;
+  }
+
+  kbd > kbd {
+    @apply mx-1 whitespace-nowrap rounded-md bg-slate-200 px-1 text-gray-800 dark:text-slate-800;
+  }
+
+  mark {
+    position: relative;
+    background-color: #0284c7;
+    color: white;
+  }
+
+  mark:after {
+    z-index: -1;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 1.25rem 0; /* Adjust the values to change the size of the triangle */
+    border-color: transparent transparent #0284c7 transparent; /* Adjust the last color for triangle color */
+    transform: scaleY(-1);
+    position: absolute;
+    top: 0;
+    left: 100%;
+  }
+
+  mark:before {
+    z-index: -1;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 1.3rem 0; /* Adjust the values to change the size of the triangle */
+    border-color: transparent transparent #0284c7 transparent; /* Adjust the last color for triangle color */
+    transform: scaleX(-1);
+    position: absolute;
+    top: 0;
+    left: -5px;
+  }
+
+
+  li > p {
+    display: inline;
+  }
+}
+
+@layer components {
+  .pagination_link {
+    @apply mx-1 select-none rounded-md border-2 border-sky-500 px-2 text-center;
+  }
+}
+
+@layer utilities {
+  .disabled {
+    @apply pointer-events-none cursor-not-allowed opacity-50;
+  }
+}

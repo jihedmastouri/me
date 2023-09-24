@@ -10,9 +10,10 @@ A personal website that will contain an online Resume and a blog. It's staticall
 ## 👨‍🔧 Getting started:
 
 1. Install dependecies: `pnpm i`.
-2. Write your blog posts as `*.md` or `*.mdx` to `src/content/blog`.
-3. Place your photos in `src/assets/photography`.
-4. Run the project using `pnpm run dev`
+2. Write your blog posts as `*.md` or `*.mdx` to `src/content/blog/`.
+3. Hero images used in the blog posts should be place under `src/assets/**`
+4. Photos featured in the photography showcase must be place under `src/assets/photography/`.
+5. Run the project using `pnpm run dev`
 
 Blog Posts require this metadata block:
 

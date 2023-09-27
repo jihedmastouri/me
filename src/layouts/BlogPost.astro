@@ -46,7 +46,7 @@ const link = Astro.url;
     >
 			<Article>
 					<div class="my-2">
-				    <h1 class="text-3xl">{title}</h1>
+				    <h1 class="lg:text-6xl text-3xl">{title}</h1>
 						<div class="text-sm text-gray-800 dark:text-gray-300">
 							Published on <FormattedDate date={pubDate} />
 							{
@@ -63,7 +63,7 @@ const link = Astro.url;
             {heroImage && <Image src={heroImage} alt={heroTitle} />}
           </div>
 
-          <div class="prose lg:prose-xl">
+          <div class="prose lg:prose-xl prose-sky dark:prose-invert my-2">
 					  <slot />
           </div>
 

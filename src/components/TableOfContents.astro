@@ -48,44 +48,49 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 </nav>
 
 <script is:inline>
-const sectionHeadings = document.querySelectorAll(
-  'article > h2, article > h3'
-);
-var hashChangeFlag;
+run();
 
-if (window.location.hash) {
-  highlightHeader(window.location.hash);
-  hashChangeFlag = true;
-} else if (isInViewport(sectionHeadings[0])) {
-  highlightHeader(`#${sectionHeadings[0].id}`);
+function run(){
+  const sectionHeadings = document.querySelectorAll(
+    'article > h2, article > h3'
+  );
+
+  if (window.location.hash) {
+    highlightHeader(window.location.hash);
+  } else if (isInViewport(sectionHeadings[0])) {
+    highlightHeader(`#${sectionHeadings[0].id}`);
+  }
+
+  document.querySelectorAll('#table-of-contents > a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          console.log('click', e);
+
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+              behavior: 'smooth'
+          });
+      });
+  });
 }
-
-document.querySelectorAll('#table-of-contents > a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
 
 
 /***************
 Events
 ***************/
 
+window.addEventListener('astro:after-swap', () => {
+  run();
+});
+
 window.addEventListener('hashchange', () => {
   const path = window.location.hash;
-  hashChangeFlag = true;
   highlightHeader(path);
 });
 
 window.addEventListener('scroll', () => {
-  if (hashChangeFlag) {
-    hashChangeFlag = false;
-    return;
-  }
+  const sectionHeadings = document.querySelectorAll(
+    'article > h2, article > h3'
+  );
 
   for (const heading of sectionHeadings) {
     if (isInViewport(heading)) {

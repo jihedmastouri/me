@@ -1,6 +1,6 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { fade, slide } from 'astro:transitions';
+import { slide } from 'astro:transitions';
 
 import { SITE_TITLE, SITE_DESCRIPTION, CATEGS } from 'src/consts';
 import { tags } from 'src/tags';
@@ -17,26 +17,6 @@ import Card from '@components/Card.astro';
 type colEntry = CollectionEntry<'blog'>;
 
 const { selectedTag, selectedCateg, page, basePath } = Astro.props;
-
-const anim = {
-  old: {
-    name: 'slide',
-    duration: '0.2s',
-    easing: 'ease-in-out',
-    direction: 'left',
-  },
-  new: {
-    name: 'slide',
-    duration: '0.3s',
-    easing: 'ease-in-out',
-    direction: 'right',
-  }
-};
-
-const myFade = {
-  forwards: anim,
-  backwards: anim,
-};
 
 ---
 
@@ -103,7 +83,7 @@ const myFade = {
       </main>
         <side
           class="col-span-1 md:order-2 order-1"
-          transition:animate={myFade}
+          transition:animate={slide({direction: 'right'})}
           >
           {
             (selectedCateg || selectedTag) && (
@@ -147,12 +127,12 @@ const myFade = {
                 ))
               }
             </div>
-            <h4> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
+            <h4 class="my-2"> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
             <div class="flex flex-wrap text-xs">
               {tags.map((tag) => (
                 <a
                   href={`/blog${ selectedCateg ? '/categs/' + selectedCateg : '' }/tags/${tag}`}
-                  class="transition-all duration-100 ease-in-out hover:translate-y-[-2px] mb-3"
+                  class="hover:opacity-90 mb-3 opacity-100"
                 >
                   <Shield text={'#' + tag} />
                 </a>

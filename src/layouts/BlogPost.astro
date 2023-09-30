@@ -16,6 +16,7 @@ import Card from '@components/Card.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
   headings: MarkdownHeading[];
+  readingTime: number;
 };
 
 const {
@@ -27,7 +28,8 @@ const {
   tags,
   category,
   headings,
-  heroTitle
+  heroTitle,
+  readingTime
 } = Astro.props;
 
 const link = Astro.url;
@@ -57,6 +59,7 @@ const link = Astro.url;
 								)
 							}
 						</div>
+            {readingTime && <div class="text-sm text-gray-800 dark:text-gray-300">Reading time: {readingTime} minutes</div>}
 					</div>
 
           <div class="hero-image mb-2">

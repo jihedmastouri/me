@@ -30,10 +30,10 @@ const grouppedHeadings = headings.reduce((array, heading) => {
   <ol>
     {
       grouppedHeadings.map((h) => (
-        <li class="py-1 leading-8 hover:text-sky-400">
-          <a href={`#${h.slug}`}>{h.text}</a>
+        <li class="py-1 leading-8 group">
+          <a href={`#${h.slug}`} class="group-hover:text-sky-400">{h.text}</a>
           {h.subheadings.length > 0 && (
-            <ol class="ml-2 border-l border-double border-zinc-200 pl-2">
+            <ol class="ml-2 border-l border-double border-zinc-200 pl-2 group-hover:border-sky-400">
               {h.subheadings.map((sub) => (
                 <li class="hover:text-sky-400">
                   <a href={`#${sub.slug}`}>{sub.text}</a>
@@ -47,12 +47,12 @@ const grouppedHeadings = headings.reduce((array, heading) => {
   </ol>
 </nav>
 
-<script is:inline>
+<script>
 run();
 
 function run(){
   const sectionHeadings = document.querySelectorAll(
-    'article > h2, article > h3'
+    'article h2, article h3'
   );
 
   if (window.location.hash) {
@@ -61,22 +61,18 @@ function run(){
     highlightHeader(`#${sectionHeadings[0].id}`);
   }
 
-  document.querySelectorAll('#table-of-contents > a[href^="#"]').forEach(anchor => {
+  document.querySelectorAll('#table-of-contents a[href^="#"]').forEach(anchor => {
+      const selector = anchor.getAttribute('href');
       anchor.addEventListener('click', function (e) {
           e.preventDefault();
           console.log('click', e);
 
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
+          document.querySelector(selector)!.scrollIntoView({
               behavior: 'smooth'
           });
       });
   });
 }
-
-
-/***************
-Events
-***************/
 
 window.addEventListener('astro:after-swap', () => {
   run();
@@ -89,7 +85,7 @@ window.addEventListener('hashchange', () => {
 
 window.addEventListener('scroll', () => {
   const sectionHeadings = document.querySelectorAll(
-    'article > h2, article > h3'
+    'article h2, article h3'
   );
 
   for (const heading of sectionHeadings) {
@@ -101,13 +97,9 @@ window.addEventListener('scroll', () => {
   }
 });
 
-/***************
-Helper functions
-****************/
-
 function isInViewport(element) {
   const rect = element.getBoundingClientRect();
-  return rect.top - 5 <= window.visualViewport.height && rect.top > 0;
+  return rect.top - 5 <= window.visualViewport!.height && rect.top > 0;
 }
 
 function highlightHeader(headerId) {

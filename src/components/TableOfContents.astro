@@ -65,8 +65,6 @@ function run(){
       const selector = anchor.getAttribute('href');
       anchor.addEventListener('click', function (e) {
           e.preventDefault();
-          console.log('click', e);
-
           document.querySelector(selector)!.scrollIntoView({
               behavior: 'smooth'
           });

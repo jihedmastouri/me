@@ -52,6 +52,9 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <script>
+  colorTheme();
+  selectButton();
+
   function colorTheme() {
     let theme = localStorage.getItem('theme') ?? 'system';
 
@@ -83,7 +86,6 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
     });
   }
 
-  colorTheme();
   document.addEventListener('astro:after-swap', () => {
     colorTheme();
     selectButton();

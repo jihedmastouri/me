@@ -33,9 +33,9 @@ const grouppedHeadings = headings.reduce((array, heading) => {
         <li class="py-1 leading-8 group">
           <a href={`#${h.slug}`} class="group-hover:text-sky-400">{h.text}</a>
           {h.subheadings.length > 0 && (
-            <ol class="ml-2 border-l border-double border-zinc-200 pl-2 group-hover:border-sky-400">
+            <ol class="ml-2 border-l border-double group-hover:border-sky-400 border-zinc-200 pl-2">
               {h.subheadings.map((sub) => (
-                <li class="hover:text-sky-400">
+                <li class="hover:text-sky-400 hover:translate-x-2 hover:-translate-y-1 transition-all">
                   <a href={`#${sub.slug}`}>{sub.text}</a>
                 </li>
               ))}
@@ -103,13 +103,15 @@ function isInViewport(element) {
 function highlightHeader(headerId) {
   if (!headerId) return;
 
+  const classList = ['text-sky-400', 'opacity-75'];
+
   const tocItem = document.querySelector(`a[href="${headerId}"]`);
   const previouslyActivatedItem = document.querySelector('.text-sky-400');
 
   if (previouslyActivatedItem) {
-    previouslyActivatedItem.classList.remove('text-sky-400');
+    previouslyActivatedItem.classList.remove(...classList);
   }
 
-  tocItem && tocItem.classList.add('text-sky-400');
+  tocItem && tocItem.classList.add(...classList);
 }
 </script>

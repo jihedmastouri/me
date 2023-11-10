@@ -2,6 +2,6 @@
 const { class: className } = Astro.props;
 ---
 
-<div class={`box-border rounded-md bg-slate-50 px-2 py-4 pt-1 shadow-sm dark:bg-slate-700 ${className}`}>
+<div class={`box-border rounded-md bg-slate-100/80 backdrop-blur px-2 py-4 pt-1 shadow-sm dark:bg-slate-700/80 ${className}`}>
   <slot />
 </div>

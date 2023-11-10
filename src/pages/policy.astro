@@ -6,37 +6,38 @@ import Footer from '@components/Footer.astro';
 import { SITE_TITLE } from 'src/consts';
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description="Favorite pictures I took through the years" />
-	</head>
-	<body>
-		<Header/>
-		<main class="w-[90%] mx-auto flex flex-col items-center mt-2">
-    <h2 class="text-2xl font-bold">The Website</h2>
-    <ul class="list-disc">
-      <li> All Content including and not limited to text, images, and videos is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> </li>
-      <li> Curious about the website, technologies, or code? <a href="/blog/1st-post">Read our
-      first article</a></li>
-      <li> Want to use this template, the code is avaibled under MIT open source licence on <a href="https://github.com/jihedmastouri/me">Github</a> </li>
-    </ul>
-    <h2 class="text-2xl font-bold">Privacy</h2>
-      <ul class="list-disc">
-        <li> We don't know who you are We don't track you nor profile you</li>
-        <li> We don't sell your data (because we don't have any)</li>
-        <li> We don't have ads</li>
+  <head>
+    <BaseHead title={SITE_TITLE} description="Favorite pictures I took through the years" />
+  </head>
+  <body>
+    <Header />
+    <main class="mx-auto mt-5 w-8/12">
+      <h2 class="my-5 text-2xl font-bold">The Website</h2>
+      <ul class="ml-5 list-disc">
         <li>
-        <span>We do have some privacy friendly analytics provided by <a
-        href="https://vercel.com">Vercel</a>:</span>
-          <ul class="ml-20 list-disc">
-            <li>Usage Analytics</li>
-            <li>Perfromance</li>
-          </ul>
+          All Content including and not limited to text and images is licensed under <a class="text-sky-400"
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a
+          >
+        </li>
+        <li> Want to use this template? The code is avaibled under MIT open source licence on <a
+        class="text-sky-400"
+            href="https://github.com/jihedmastouri/me">Github</a
+          >
+        </li>
+        <li>
+          Curious about the website, technologies used, or the code? <a class="text-sky-400"
+          href="/blog/1st-post" >Read our first article</a
         </li>
       </ul>
+      <h2 class="my-5 text-2xl font-bold">Privacy</h2>
+      <img
+        src="/static/secrets.jpg"
+        alt="Keep your secrets"
+        class="mx-auto max-h-[50vh] w-8/12 rounded object-cover"
+      />
     </main>
-    <img src="/static/secrets.jpg" alt="Keep your secrets" class="max-h-[50vh] w-8/12 object-cover mx-auto rounded" />
-		<Footer />
-	</body>
+    <Footer />
+  </body>
 </html>

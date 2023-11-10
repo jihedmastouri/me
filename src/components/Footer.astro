@@ -1,6 +1,6 @@
 ---
 import Icon from "../components/Icon.astro";
-import links from "../../social.json";
+import links from "../../data/social.json";
 const today = new Date();
 ---
 
@@ -9,8 +9,8 @@ const today = new Date();
     {
       links.map((link) => {
         return (
-          <a href={link.url} title={link.name} target="_blank" rel="noopener">
-            <Icon icon={link.image} folder="social" class="w-5 h-5 hover:fill-sky-500 dark:fill-gray-200" />
+          <a href={link.url} title={link.name} target="_blank" rel="noopener" class="w-5 h-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500">
+            <Icon icon={link.image} folder="social" />
           </a>
         )
       })

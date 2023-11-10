@@ -4,21 +4,237 @@ import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 
 import { SITE_TITLE } from 'src/consts';
+import Icon from '@components/Icon.astro';
+
+import projects from '../../data/projects.json';
+import Shield from '@components/Shield.astro';
+
+const skillsArray = [
+  'skill-web',
+  'skill-backend',
+  'skill-design',
+  'skill-tools',
+  'skill-full',
+] as const;
+
+type Skills = (typeof skillsArray)[number];
+
+type Lang = {
+  name: string;
+  type: Skills[];
+};
+
+const langs: Lang[] = [
+  { name: 'bash', type: ['skill-backend', 'skill-full'] },
+  { name: 'go', type: ['skill-backend', 'skill-full'] },
+  { name: 'py', type: ['skill-backend', 'skill-full'] },
+  { name: 'ts', type: ['skill-web', 'skill-backend', 'skill-full'] },
+  { name: 'docker', type: ['skill-tools', 'skill-full'] },
+  { name: 'linux', type: ['skill-tools', 'skill-full'] },
+  { name: 'node', type: ['skill-web', 'skill-backend', 'skill-full'] },
+  { name: 'react', type: ['skill-web', 'skill-full'] },
+  { name: 'tailwindcss', type: ['skill-web', 'skill-design', 'skill-full'] },
+  { name: 'git', type: ['skill-tools', 'skill-full'] },
+  { name: 'pgsql', type: ['skill-tools', 'skill-backend', 'skill-full'] },
+  { name: 'aws', type: ['skill-tools', 'skill-full'] },
+];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead
-      title={`${SITE_TITLE} | About Me`}
-      description="My story as developer"
-    />
+    <BaseHead title={`${SITE_TITLE} | About Me`} description="My story as developer" />
   </head>
   <body>
-    <Header />
-    <main class="mx-auto max-w-screen-md">
-      <h1 class="text-4xl">About Me</h1>
+    <Header noTitle />
+    <main class="relative mx-auto mt-16 w-[80vw] p-1 md:max-w-screen-xl md:p-5">
+      <div class="about-bg-img"></div>
+
+      <section id="hero">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
+          <div class="p-0">
+            <h1 class="mb-2 text-5xl">About Me</h1>
+            <p>
+              Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore
+              culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim
+              cupidatat
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore
+              culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim
+              cupidatat
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore
+              culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim
+              cupidatat
+            </p>
+          </div>
+          <div class="grid select-none grid-flow-col grid-cols-3 grid-rows-2 gap-8">
+            <div class="-rotate-6 transform-gpu transition-all delay-100 duration-1000">
+              <h4 id="skill-web">Web Dev</h4>
+            </div>
+            <div class="translate-y-15 col-start-3 translate-x-2 rotate-6 transform">
+              <h4 id="skill-backend">Backend Engineering</h4>
+            </div>
+            <div class="translate-y-11 transform">
+              <h4 id="skill-design">Design</h4>
+              <span class="text-sm">(probably not)</span>
+            </div>
+            <div class="translate-y-24 transform">
+              <h4 id="skill-tools">Tools & Ops</h4>
+            </div>
+            <div class="col-span-2 col-start-2 row-start-1 translate-x-20 translate-y-4 transform">
+              <h4 id="skill-full">Full Stack</h4>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="me-grid-container flex min-h-[200px] flex-wrap content-center items-center justify-center
+          gap-5 p-5 pb-3 md:gap-x-28"
+        >
+          {
+            langs.map((lang) => (
+              <Icon
+                folder="lang"
+                icon={lang.name}
+                class={`h-8 w-8 dark:fill-gray-400 md:h-12 md:w-12 ${lang.type.join(' ')}`}
+              />
+            ))
+          }
+          <div class="me-grid"></div>
+        </div>
+      </section>
+
+      <section class="projects relative my-2">
+        <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
+        {
+          projects.map((p) => (
+            <div class="flex w-full flex-wrap justify-between">
+              <div class="w-[450px] max-w-[80%] rounded-md border-2 border-gray-400 bg-gray-200/5 p-5 backdrop-blur-sm">
+                <div class="float-right flex justify-end gap-1">
+                  {p.links.github && (
+                    <a
+                      href={p.links.github}
+                      title="Github Link"
+                      target="_blank"
+                      rel="noopener"
+                      class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+                    >
+                      <Icon icon="github" folder="social" />
+                    </a>
+                  )}
+                  {p.links.github && (
+                    <a
+                      href={p.links.web}
+                      title="Link"
+                      target="_blank"
+                      rel="noopener"
+                      class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+                    >
+                      <Icon icon="link" folder="social" />
+                    </a>
+                  )}
+                </div>
+                <h4>{p.title}</h4>
+                <div class="text-sm">
+                  <p>{p.descr}</p>
+                  <div class="my-2">
+                    {p.techs.map((t) => (
+                      <Shield text={t} />
+                    ))}
+                  </div>
+                  <details class="mt-2 block">
+                    <summary class="cursor-pointer select-none">More Details</summary>
+                    <ul class="ml-2">
+                      {p.funcs.map((f) => (
+                        <li class="my-1 ml-4 list-disc">{f}</li>
+                      ))}
+                    </ul>
+                  </details>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </section>
+      <section class="projects relative my-2">
+        <h2 class="my-8 text-center text-5xl">Work</h2>
+      </section>
     </main>
     <Footer />
+
+    <style>
+      .me-grid-container {
+        perspective: 25rem;
+        position: relative;
+      }
+
+      .me-grid {
+        position: absolute;
+        bottom: 10%;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        max-height: 200px;
+        z-index: -1;
+        background: url('/static/grid-me.png');
+        background-size: 20px;
+        transform: rotateX(30deg);
+      }
+
+      svg * {
+        fill: 'radial-gradient(at left bottom, #4B4754, #4EBED2)';
+      }
+
+      body:not(.dark) .me-grid {
+        filter: invert(1);
+      }
+    </style>
+
+    <script lang="text/javascript" defer>
+      run();
+
+      window.addEventListener('astro:after-swap', () => {
+        run();
+      });
+
+      function run() {
+        const skillsArray = [
+          'skill-web',
+          'skill-backend',
+          'skill-design',
+          'skill-tools',
+          'skill-full',
+        ];
+
+        skillsArray.forEach((el) => {
+          const skill = document.getElementById(el);
+
+          skill.addEventListener('mouseover', function () {
+            var elementsToChange = document.querySelectorAll(`.${el}`);
+            elementsToChange.forEach(function (element, index) {
+              element.style.transition = '0.3s';
+              element.style.fill = '#0ea5e9';
+              setTimeout(() => {
+                element.classList.add('motion-safe:animate-bounce');
+              }, index * 20);
+            });
+          });
+
+          skill.addEventListener('mouseout', function () {
+            var elementsToChange = document.querySelectorAll(`.${el}`);
+            elementsToChange.forEach(function (element, index) {
+              element.style.transition = '0.3s';
+              element.style.fill = '#9ca3af';
+              setTimeout(() => {
+                element.classList.remove('motion-safe:animate-bounce');
+              }, index * 20);
+            });
+          });
+        });
+      }
+    </script>
   </body>
 </html>

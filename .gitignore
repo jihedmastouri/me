@@ -19,3 +19,6 @@ src/content/blog/
 .DS_Store
 .vercel
 .vscode
+
+# Data used
+data/

@@ -19,10 +19,11 @@
 
   body.dark {
     background-image: url('/static/bg-dark.png');
+    background-color: #15181f;
   }
 
   body.dark {
-    @apply bg-slate-900 text-gray-200;
+    @apply text-gray-200;
   }
 
   code {
@@ -101,7 +102,6 @@
     top: 0;
     left: -5px;
   }
-
 
   li > p {
     display: inline;

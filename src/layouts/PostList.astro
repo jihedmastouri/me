@@ -13,6 +13,7 @@ import Icon from '@components/Icon.astro';
 import Shield from '@components/Shield.astro';
 import Paginator from '@components/Paginator.astro';
 import Card from '@components/Card.astro';
+import WeirdButton from '@components/WeirdButton.astro';
 
 type colEntry = CollectionEntry<'blog'>;
 
@@ -82,52 +83,31 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
         }
       </main>
         <side
-          class="col-span-1 md:order-2 order-1"
-          transition:animate={slide({direction: 'right'})}
-          >
-          {
-            (selectedCateg || selectedTag) && (
-              <p class="text-sm mb-2 text-center">
-                👈 <a class="hover:text-sky-500 hover:underline" href="/blog">
-                  Clear/Go back to Blog
-                </a>
-              </p>
-            )
-          }
+          class="col-span-1 md:order-2 order-1" >
           <Card>
             {
               (selectedCateg || selectedTag) && (
                 <>
-                  <h3 class="text-2xl text-center" >
+                  <h3 class="text-2xl text-center py-3" >
                     {`${selectedCateg ? selectedCateg : '' }${selectedTag ? '#' + selectedTag :''}`}
                   </h3>
                   <hr />
                 </>
               )
             }
-            <h4>Categories:</h4>
+            <h4 class="my-2">Categories:</h4>
             <div class="flex flex-wrap items-center justify-center gap-2 text-center">
               {
                 CATEGS.map((categ) => (
-                <a
-                  class={`relative ${(selectedCateg === categ) && 'pointer-events-none'}`}
-                  href={`/blog/categs/${categ}`}
-                >
-                  <span class="absolute top-0 left-0 mt-1 ml-1 h-full w-full rounded bg-black dark:bg-slate-50"></span>
-                  <span
-                    class={
-                      `fold-bold relative inline-block h-full w-full rounded border-2
-                      border-black px-3 py-1 text-base font-bold text-black
-                      transition duration-100 hover:bg-sky-300 hover:text-white
-                      hover:dark:bg-sky-300 ${(selectedCateg === categ) ?
-                      'bg-sky-300 dark:bg-sky-300' : 'bg-white'}`
-                    }
-                  >{categ}</span>
-                </a>
+                  <WeirdButton
+                    href={`/blog/categs/${categ}`}
+                    text={categ}
+                    condition={selectedCateg === categ}
+                  />
                 ))
               }
             </div>
-            <h4 class="my-2"> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
+            <h4 class="mb-2 mt-3"> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
             <div class="flex flex-wrap text-xs">
               {tags.map((tag) => (
                 <a
@@ -139,6 +119,15 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
               ))}
             </div>
           </Card>
+          {
+            (selectedCateg || selectedTag) && (
+              <p class="text-sm mt-4 text-center">
+                👈 <a class="hover:text-sky-500 hover:underline" href="/blog">
+                  Clear/Go back to Blog
+                </a>
+              </p>
+            )
+          }
       </side>
     </div>
     <Footer />

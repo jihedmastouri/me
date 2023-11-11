@@ -49,26 +49,27 @@ const link = Astro.url;
           <div class="my-2">
             <h1 class="text-3xl lg:text-6xl">{title}</h1>
             <div class="text-sm text-gray-800 dark:text-gray-300">
-              <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
-               Published on <FormattedDate date={pubDate} />
+              <div class="flex items-center">
+                <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
+                 Published on: <FormattedDate date={pubDate} />
+                {
+                  updatedDate && (
+                    <span>
+                      {' '}
+                      | Last updated on: <FormattedDate date={updatedDate} />{' '}
+                    </span>
+                  )
+                }
+              </div>
               {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
-                    Last updated on <FormattedDate date={updatedDate} />
+                readingTime && (
+                  <div class="flex items-center">
+                    <Icon icon="clock" class="m-0 inline h-5 w-5 fill-gray-500" />
+                    Reading time: {readingTime} minutes
                   </div>
                 )
               }
             </div>
-            {
-              readingTime && (
-                <div class="text-sm text-gray-800 dark:text-gray-300">
-                  <Icon icon="clock" class="m-0 inline h-5 w-5 fill-gray-500" />
-                  Reading time:
-                  {readingTime} minutes
-                </div>
-              )
-            }
           </div>
 
           <div class="hero-image mb-2">
@@ -101,59 +102,56 @@ const link = Astro.url;
           <div class="flex items-center justify-center gap-12">
             <span> share this post:</span>
             <span class="flex items-center justify-center gap-3">
-            <a
-              target="_blank"
-              title="Share to X"
-              href={`https://twitter.com/intent/tweet?text=${title}&original_referer=${link}&via=jihed_mastouri`}
-            >
-              <Icon
-                icon="x"
-                folder="social"
-                class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
-              />
-            </a>
-            <a
-              target="_blank"
-              title="Share to Facebook"
-              href={`https://facebook.com/sharer/sharer.php?u=${link}`}
-            >
-              <Icon
-                icon="fb"
-                folder="social"
-                class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
-              />
-            </a>
-            <a
-              target="_blank"
-              title="Share to LinkedIn"
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${link}`}
-            >
-              <Icon
-                icon="linkedin"
-                folder="social"
-                class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
-              />
-            </a>
-            <a
-              target="_blank"
-              title="Share Through Mail"
-              href={`mailto:?subject=${title}&body=${description}  ${link}`}
-            >
-              <Icon
-                icon="paper-plane-solid"
-                folder="social"
-                class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
-              />
-            </a>
+              <a
+                target="_blank"
+                title="Share to X"
+                href={`https://twitter.com/intent/tweet?text=${title}&original_referer=${link}&via=jihed_mastouri`}
+              >
+                <Icon
+                  icon="x"
+                  folder="social"
+                  class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
+                />
+              </a>
+              <a
+                target="_blank"
+                title="Share to Facebook"
+                href={`https://facebook.com/sharer/sharer.php?u=${link}`}
+              >
+                <Icon
+                  icon="fb"
+                  folder="social"
+                  class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
+                />
+              </a>
+              <a
+                target="_blank"
+                title="Share to LinkedIn"
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${link}`}
+              >
+                <Icon
+                  icon="linkedin"
+                  folder="social"
+                  class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
+                />
+              </a>
+              <a
+                target="_blank"
+                title="Share Through Mail"
+                href={`mailto:?subject=${title}&body=${description}  ${link}`}
+              >
+                <Icon
+                  icon="paper-plane-solid"
+                  folder="social"
+                  class="block h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 hover:dark:fill-sky-500"
+                />
+              </a>
             </span>
           </div>
         </Card>
       </main>
 
-      <side
-        class="order-1 h-full md:order-2 md:col-span-1"
-        transition:animate="slide"
-      >
+      <side class="order-1 h-full md:order-2 md:col-span-1" transition:animate="slide">
         <TableOfContents headings={headings} />
       </side>
     </div>

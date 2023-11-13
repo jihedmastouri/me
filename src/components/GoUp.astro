@@ -4,19 +4,37 @@ import Icon from './Icon.astro';
 
 <button
   id="goup-btn"
-  class="fixed bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full
-  bg-slate-500/40 backdrop-blur-md fill-white"
+  class="fixed bottom-4 right-4 hidden h-10 w-10 items-center justify-center
+  rounded-full bg-slate-500/40 fill-white backdrop-blur-md"
 >
   <Icon icon="arrow" />
 </button>
 
 <script>
-  const btn = document.getElementById('goup-btn');
+  run();
 
-  btn.addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.addEventListener('astro:after-swap', function () {
+    run();
   });
-</script>
 
-<style>
-</style>
+  function run() {
+    const btn = document.getElementById('goup-btn');
+
+    btn?.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const offset = 200;
+    let prev = 0;
+
+    window.addEventListener('scroll', () => {
+      const st = document.documentElement.scrollTop;
+      if (prev <= st || st <= offset) {
+        btn?.classList.replace('flex', 'hidden');
+      } else {
+        btn?.classList.replace('hidden', 'flex');
+      }
+      prev = st;
+    });
+  }
+</script>

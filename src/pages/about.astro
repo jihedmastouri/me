@@ -2,22 +2,53 @@
 import BaseHead from '@components/BaseHead.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import Shield from '@components/Shield.astro';
 
 import { SITE_TITLE } from 'src/consts';
 import Icon from '@components/Icon.astro';
 
-import projects from '../../data/projects.json';
-import Shield from '@components/Shield.astro';
+import projs from '../../data/projects.json';
+import jj from '../../data/jobs.json';
+
+const jobs = [...jj, ...jj, ...jj, ...jj];
+const projects = [...projs, ...projs, ...projs, ...projs];
 
 const skillsArray = [
-  'skill-web',
-  'skill-backend',
-  'skill-design',
-  'skill-tools',
-  'skill-full',
+  {
+    name: 'skill-web',
+    title: 'Web Dev',
+    styles: 'translate-x-4 translate-y-6 -rotate-6',
+    color: '#10b981',
+  },
+  {
+    name: 'skill-full',
+    title: 'Full Stack',
+    styles: 'sm:translate-x-4 translate-y-2',
+    color: '#0ea5e9',
+  },
+  {
+    name: 'skill-design',
+    title: 'Design',
+    styles: 'translate-y-4 relative translate-x-2 rotate-6',
+    color: '#f472b6',
+  },
+  {
+    name: 'skill-backend',
+    title: 'Backend Engineering',
+    styles: 'translate-y-8 md:translate-x-8 rotate-6',
+    color: '#f59e0b',
+  },
+  {
+    name: 'skill-tools',
+    title: 'Tools & Ops',
+    styles: 'translate-x-16 -rotate-4 whitespace-nowrap',
+    color: '#a855f7',
+  },
 ] as const;
 
-type Skills = (typeof skillsArray)[number];
+const skillsColrs = skillsArray.map((el) => ({ name: el.name, color: el.color }));
+
+type Skills = (typeof skillsArray)[number]['name'];
 
 type Lang = {
   name: string;
@@ -37,6 +68,9 @@ const langs: Lang[] = [
   { name: 'git', type: ['skill-tools', 'skill-full'] },
   { name: 'pgsql', type: ['skill-tools', 'skill-backend', 'skill-full'] },
   { name: 'aws', type: ['skill-tools', 'skill-full'] },
+  { name: 'next', type: ['skill-web', 'skill-full'] },
+  { name: 'supabase', type: ['skill-tools', 'skill-full'] },
+  { name: 'mongodb', type: ['skill-tools', 'skill-backend', 'skill-full'] },
 ];
 ---
 
@@ -70,26 +104,24 @@ const langs: Lang[] = [
               cupidatat
             </p>
           </div>
-          <div class="grid select-none grid-flow-col grid-cols-3 grid-rows-2 gap-8">
-            <div class="-rotate-6 transform-gpu transition-all delay-100 duration-1000">
-              <h4 id="skill-web">Web Dev</h4>
-            </div>
-            <div class="translate-y-15 col-start-3 translate-x-2 rotate-6 transform">
-              <h4 id="skill-backend">Backend Engineering</h4>
-            </div>
-            <div class="translate-y-11 transform">
-              <h4 id="skill-design">Design</h4>
-              <span class="text-sm">(probably not)</span>
-            </div>
-            <div class="translate-y-24 transform">
-              <h4 id="skill-tools">Tools & Ops</h4>
-            </div>
-            <div class="col-span-2 col-start-2 row-start-1 translate-x-20 translate-y-4 transform">
-              <h4 id="skill-full">Full Stack</h4>
-            </div>
+          <div
+            class="relative m-auto grid max-h-[500px] max-w-[500px] select-none grid-cols-3 gap-8
+          text-xl tracking-wider md:text-3xl"
+          >
+            {
+              skillsArray.map((skill) => (
+                <div class={`${skill.styles} group`}>
+                  <h4 id={skill.name}>{skill.title}</h4>
+                  {skill.name == 'skill-design' && (
+                    <span class="hidden text-sm" id="prob-not">
+                      (probably not)
+                    </span>
+                  )}
+                </div>
+              ))
+            }
           </div>
         </div>
-
         <div
           class="me-grid-container flex min-h-[200px] flex-wrap content-center items-center justify-center
           gap-5 p-5 pb-3 md:gap-x-28"
@@ -109,10 +141,14 @@ const langs: Lang[] = [
 
       <section class="projects relative my-2">
         <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
-        {
-          projects.map((p) => (
-            <div class="flex w-full flex-wrap justify-between">
-              <div class="w-[450px] max-w-[80%] rounded-md border-2 border-gray-400 bg-gray-200/5 p-5 backdrop-blur-sm">
+        <div id="prjt" class="relative flex w-full flex-wrap items-start justify-between gap-4">
+          <div class="radiant-bg absolute inset-0 -z-10 rounded-lg opacity-0"></div>
+          {
+            projects.map((p) => (
+              <div
+                class="inline-block w-[400px] max-w-[80%] rounded-md
+              border-2 border-gray-400 p-5 shadow-lg backdrop-blur-sm dark:bg-gray-700/30"
+              >
                 <div class="float-right flex justify-end gap-1">
                   {p.links.github && (
                     <a
@@ -140,7 +176,7 @@ const langs: Lang[] = [
                 <h4>{p.title}</h4>
                 <div class="text-sm">
                   <p>{p.descr}</p>
-                  <div class="my-2">
+                  <div class="my-2 cursor-default">
                     {p.techs.map((t) => (
                       <Shield text={t} />
                     ))}
@@ -155,86 +191,110 @@ const langs: Lang[] = [
                   </details>
                 </div>
               </div>
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
       </section>
       <section class="projects relative my-2">
         <h2 class="my-8 text-center text-5xl">Work</h2>
+        <div class="grid w-full grid-cols-2 gap-5 md:grid-cols-3">
+          {
+            jobs.map((job) => (
+              <div>
+                <h2>{job.name}</h2>
+                <h3>{job.role}</h3>
+                <p class="text-sm text-gray-500">{job.loc}</p>
+              </div>
+            ))
+          }
+        </div>
       </section>
-    </main>
-    <Footer />
 
-    <style>
-      .me-grid-container {
-        perspective: 25rem;
-        position: relative;
-      }
+      <Footer />
 
-      .me-grid {
-        position: absolute;
-        bottom: 10%;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        max-height: 200px;
-        z-index: -1;
-        background: url('/static/grid-me.png');
-        background-size: 20px;
-        transform: rotateX(30deg);
-      }
+      <style>
+        .radiant-bg {
+          transition: background 0.3s ease;
+        }
 
-      svg * {
-        fill: 'radial-gradient(at left bottom, #4B4754, #4EBED2)';
-      }
+        #prjt:hover .radiant-bg {
+          background: radial-gradient(circle, #ff8c00, #ff2d20, #ff8c00);
+        }
 
-      body:not(.dark) .me-grid {
-        filter: invert(1);
-      }
-    </style>
+        .me-grid-container {
+          perspective: 25rem;
+          position: relative;
+        }
 
-    <script lang="text/javascript" defer>
-      run();
+        .me-grid {
+          position: absolute;
+          bottom: 10%;
+          left: 0;
+          width: 100%;
+          height: 50%;
+          max-height: 200px;
+          z-index: -1;
+          background: url('/static/grid-me.png');
+          background-size: 20px;
+          transform: rotateX(30deg);
+        }
 
-      window.addEventListener('astro:after-swap', () => {
+        svg * {
+          fill: 'radial-gradient(at left bottom, #4B4754, #4EBED2)';
+        }
+
+        body:not(.dark) .me-grid {
+          filter: invert(1);
+        }
+      </style>
+
+      <script lang="text/javascript" define:vars={{ skillsColrs }}>
         run();
-      });
 
-      function run() {
-        const skillsArray = [
-          'skill-web',
-          'skill-backend',
-          'skill-design',
-          'skill-tools',
-          'skill-full',
-        ];
-
-        skillsArray.forEach((el) => {
-          const skill = document.getElementById(el);
-
-          skill.addEventListener('mouseover', function () {
-            var elementsToChange = document.querySelectorAll(`.${el}`);
-            elementsToChange.forEach(function (element, index) {
-              element.style.transition = '0.3s';
-              element.style.fill = '#0ea5e9';
-              setTimeout(() => {
-                element.classList.add('motion-safe:animate-bounce');
-              }, index * 20);
-            });
-          });
-
-          skill.addEventListener('mouseout', function () {
-            var elementsToChange = document.querySelectorAll(`.${el}`);
-            elementsToChange.forEach(function (element, index) {
-              element.style.transition = '0.3s';
-              element.style.fill = '#9ca3af';
-              setTimeout(() => {
-                element.classList.remove('motion-safe:animate-bounce');
-              }, index * 20);
-            });
-          });
+        window.addEventListener('astro:after-swap', () => {
+          run();
         });
-      }
-    </script>
+
+        function run() {
+          skillsColrs.forEach((el) => {
+            const skill = document.getElementById(el.name);
+            const probNot = document.getElementById('prob-not');
+
+            skill.addEventListener('mouseover', function () {
+              skill.style.transition = '0.5s';
+              skill.style.color = el.color;
+
+              if (el.name == 'skill-design') {
+                skill.style.textDecoration = 'line-through';
+                probNot.classList.remove('hidden');
+              }
+
+              var elementsToChange = document.querySelectorAll(`.${el.name}`);
+              elementsToChange.forEach(function (element, index) {
+                element.style.transition = '0.3s';
+                element.style.fill = el.color;
+                setTimeout(() => {
+                  element.classList.add('-translate-y-2');
+                }, index * 20);
+              });
+            });
+
+            skill.addEventListener('mouseout', function () {
+              skill.style.color = '';
+              skill.style.textDecoration = '';
+              probNot.classList.add('hidden');
+              var elementsToChange = document.querySelectorAll(`.${el.name}`);
+              elementsToChange.forEach(function (element, index) {
+                element.style.transition = '0.3s';
+                element.style.fill = '';
+                setTimeout(() => {
+                  element.classList.remove('-translate-y-2');
+                }, index * 20);
+              });
+            });
+          });
+        }
+      </script>
+    </main>
   </body>
 </html>

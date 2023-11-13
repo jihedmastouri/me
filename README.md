@@ -29,6 +29,7 @@ heroImage:
 heroTitle:
 ---
 ```
+
 Checkout `src/content/config.ts` for the `zod` schema.
 
 ## 🚀 Getting started with astro:
@@ -46,10 +47,10 @@ Check out [Astro's documentation](https://docs.astro.build) and [Discord server]
 This is still a work in progress with many things planned:
 
 - [ ] Polish the design:
-  - [ ]  fix styling mistakes.
-  - [ ]  Dark Theme not consistent.
-  - [ ]  Some pages need polish.
-  - [ ]  Better table of contents.
+  - [ ] fix styling mistakes.
+  - [ ] Dark Theme not consistent.
+  - [ ] Some pages need polish.
+  - [ ] Better table of contents.
 - [ ] Configure transitions correctly:
   - [ ] Direction, elements, duration....
   - [ ] Handle browsers that doesn't support transitions.

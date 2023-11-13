@@ -4,12 +4,21 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
-      animation:{
-        'bounce-small': 'bounce cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s infinite',
-      }
+      keyframes: {
+        customPulse: {
+          '0%, 100%': {
+            opacity: '0.1',
+          },
+          '50%': {
+            opacity: '0.5',
+          },
+        },
+      },
+      animation: {
+        'bounce-small': 'bounce 5s infinite',
+        'pulse-small': 'customPulse cubic-bezier(0.4, 0, 0.6, 1) 5s infinite',
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require('@tailwindcss/typography')],
 };

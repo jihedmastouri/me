@@ -3,6 +3,7 @@ import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
 import ThemeSwitcher from './ThemeSwitcher.astro';
 import ProfileImg from './ProfileImg.astro';
+import GoUp from './GoUp.astro';
 
 type Props = {
   noTitle?: boolean;
@@ -15,7 +16,7 @@ const { noTitle } = Astro.props;
   {
     !noTitle && (
       <div class="flex justify-center">
-        <a href="/" class="w-fit flex flex-col items-center">
+        <a href="/" class="flex w-fit flex-col items-center">
           <ProfileImg />
           <h2 class="mt-1 text-sm text-gray-500 dark:text-gray-300">{SITE_TITLE}</h2>
         </a>
@@ -35,4 +36,5 @@ const { noTitle } = Astro.props;
     </div>
   </nav>
   <ThemeSwitcher />
+  <GoUp />
 </header>

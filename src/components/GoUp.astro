@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button
+  id="goup-btn"
+  class="fixed bottom-4 right-4 flex h-10 w-10 items-center justify-center rounded-full
+  bg-slate-500/40 backdrop-blur-md fill-white"
+>
+  <Icon icon="arrow" />
+</button>
+
+<script>
+  const btn = document.getElementById('goup-btn');
+
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+<style>
+</style>

@@ -158,28 +158,22 @@ const langs: Lang[] = [
           id="prjt"
           class="relative grid grid-cols-1 items-baseline gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {
-            projects.map((p) => (
-              <ProjectCard project={p} />
-            ))
-          }
+          {projects.map((p,index) => <ProjectCard project={p} id={index} />)}
         </div>
       </section>
       <section class="projects relative my-2">
-        <div class="grid w-full grid-cols-2 md:grid-cols-3">
-          <h2 class="my-8 text-center text-5xl">Work</h2>
+        <div class="grid w-full md:grid-cols-2 lg:grid-cols-3 gap-2">
+          <h2 class="md:col-span-2 text-5xl">Work Experience</h2>
           {
-            jobs.map((job) => (
-              <div
-                class="
-              p-5
-              odd:border-b even:border-l
-              even:border-r "
-              >
-                <h2>{job.name}</h2>
-                <h3>{job.role}</h3>
-                <p class="text-sm text-gray-500">{job.loc}</p>
-              </div>
+            jobs.map((job, index) => (
+              <>
+                <div class="border p-5">
+                  <h2>{job.name}</h2>
+                  <h3>{job.role}</h3>
+                  <p class="text-sm text-gray-500">{job.loc}</p>
+                </div>
+                {index == 0 && <span class="max-lg:hidden"></span>}
+              </>
             ))
           }
         </div>

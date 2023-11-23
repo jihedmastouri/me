@@ -1,5 +1,5 @@
 import { defineCollection, z } from 'astro:content';
-import { CATEGS } from 'src/consts.ts';
+import { CATEGS } from 'consts.ts';
 
 const blog = defineCollection({
   // Type-check frontmatter using a schema

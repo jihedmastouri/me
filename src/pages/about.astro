@@ -1,43 +1,44 @@
 ---
-import BaseHead from '@components/BaseHead.astro';
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
-import Shield from '@components/Shield.astro';
+import BaseHead from '@layouts/BaseHead.astro';
+import Header from '@layouts/Header.astro';
+import Footer from '@layouts/Footer.astro';
 
-import { SITE_TITLE } from 'src/consts';
+import ProjectCard from '@containers/ProjectCard.astro';
+
 import Icon from '@components/Icon.astro';
 
-import projs from '../../data/projects.json';
-import jj from '../../data/jobs.json';
-import GoUp from '@components/GoUp.astro';
+import { SITE_TITLE } from 'consts';
 
-const jobs = [...jj, ...jj, ...jj, ...jj];
-const projects = [...projs, ...projs, ...projs, ...projs];
+import projs from 'data/projects.json';
+import jj from 'data/jobs.json';
+
+const jobs = [...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj];
+const projects = [...projs, ...projs, ...projs, ...projs, ...projs, ...projs];
 
 const skillsArray = [
   {
     name: 'skill-web',
     title: 'Web Dev',
     styles: 'translate-x-4 translate-y-6 -rotate-6',
-    color: '#10b981',
+    color: '#f59e0b',
   },
   {
     name: 'skill-full',
     title: 'Full Stack',
-    styles: 'sm:translate-x-4 translate-y-2',
-    color: '#0ea5e9',
+    styles: 'sm:translate-x-4 translate-y-2 whitespace-nowrap',
+    color: '#10b981',
   },
   {
     name: 'skill-design',
     title: 'Design',
-    styles: 'translate-y-4 relative translate-x-2 rotate-6',
+    styles: 'relative translate-x-16 -translate-y-8 rotate-6',
     color: '#f472b6',
   },
   {
     name: 'skill-backend',
     title: 'Backend Engineering',
     styles: 'translate-y-8 md:translate-x-8 rotate-6',
-    color: '#f59e0b',
+    color: '#0ea5e9',
   },
   {
     name: 'skill-tools',
@@ -82,9 +83,17 @@ const langs: Lang[] = [
   </head>
   <body>
     <Header noTitle />
-    <main class="relative mx-auto mt-16 w-[80vw] p-1 md:max-w-screen-xl md:p-5">
-      <div class="about-bg-img"></div>
-
+    <main class="relative mx-auto mt-16 w-[80vw] p-1 lg:max-w-screen-xl lg:p-5">
+      <div
+        class="absolute inset-0 -z-20
+        ml-[calc(100%-35%)] mt-[35%]
+        h-[50%] w-12
+        rotate-45 rounded
+        bg-sky-400 opacity-20
+        blur-2xl dark:bg-white
+        dark:opacity-10"
+      >
+      </div>
       <section id="hero">
         <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
           <div class="p-0">
@@ -107,17 +116,20 @@ const langs: Lang[] = [
           </div>
           <div
             class="relative m-auto grid max-h-[500px] max-w-[500px] select-none grid-cols-3 gap-8
-          text-xl tracking-wider md:text-3xl"
+          text-xl tracking-wider max-sm:mt-5 md:text-3xl"
           >
             {
               skillsArray.map((skill) => (
                 <div class={`${skill.styles} group`}>
-                  <h4 id={skill.name}>{skill.title}</h4>
                   {skill.name == 'skill-design' && (
-                    <span class="hidden text-sm" id="prob-not">
+                    <span
+                      class="absolute -top-6 left-8 -z-10 hidden rotate-12 whitespace-nowrap text-sm"
+                      id="prob-not"
+                    >
                       (probably not)
                     </span>
                   )}
+                  <h4 id={skill.name}>{skill.title}</h4>
                 </div>
               ))
             }
@@ -140,68 +152,30 @@ const langs: Lang[] = [
         </div>
       </section>
 
-      <section class="projects relative my-2">
+      <section class="relative my-2">
         <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
-        <div id="prjt" class="relative flex w-full flex-wrap items-start justify-between gap-4">
-          <div class="radiant-bg absolute inset-0 -z-10 rounded-lg opacity-0"></div>
+        <div
+          id="prjt"
+          class="relative grid grid-cols-1 items-baseline gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {
             projects.map((p) => (
-              <div
-                class="inline-block w-[400px] max-w-[80%] rounded-md
-              border-2 border-gray-400 p-5 shadow-lg backdrop-blur-sm dark:bg-gray-700/30"
-              >
-                <div class="float-right flex justify-end gap-1">
-                  {p.links.github && (
-                    <a
-                      href={p.links.github}
-                      title="Github Link"
-                      target="_blank"
-                      rel="noopener"
-                      class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
-                    >
-                      <Icon icon="github" folder="social" />
-                    </a>
-                  )}
-                  {p.links.github && (
-                    <a
-                      href={p.links.web}
-                      title="Link"
-                      target="_blank"
-                      rel="noopener"
-                      class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
-                    >
-                      <Icon icon="link" folder="social" />
-                    </a>
-                  )}
-                </div>
-                <h4>{p.title}</h4>
-                <div class="text-sm">
-                  <p>{p.descr}</p>
-                  <div class="my-2 cursor-default">
-                    {p.techs.map((t) => (
-                      <Shield text={t} />
-                    ))}
-                  </div>
-                  <details class="mt-2 block">
-                    <summary class="cursor-pointer select-none">More Details</summary>
-                    <ul class="ml-2">
-                      {p.funcs.map((f) => (
-                        <li class="my-1 ml-4 list-disc">{f}</li>
-                      ))}
-                    </ul>
-                  </details>
-                </div>
-              </div>
+              <ProjectCard project={p} />
             ))
           }
         </div>
       </section>
       <section class="projects relative my-2">
-        <h2 class="my-8 text-center text-5xl">Work</h2>
-        <div class="grid w-full grid-cols-2 gap-5 md:grid-cols-3">
+        <div class="grid w-full grid-cols-2 md:grid-cols-3">
+          <h2 class="my-8 text-center text-5xl">Work</h2>
           {
             jobs.map((job) => (
-              <div>
+              <div
+                class="
+              p-5
+              odd:border-b even:border-l
+              even:border-r "
+              >
                 <h2>{job.name}</h2>
                 <h3>{job.role}</h3>
                 <p class="text-sm text-gray-500">{job.loc}</p>
@@ -214,12 +188,27 @@ const langs: Lang[] = [
       <Footer />
 
       <style>
-        .radiant-bg {
-          transition: background 0.3s ease;
+        .spotlight {
+          position: relative;
+          overflow: hidden;
         }
 
-        #prjt:hover .radiant-bg {
-          background: radial-gradient(circle, #ff8c00, #ff2d20, #ff8c00);
+        .spotlight::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 150%;
+          height: 150%;
+          background: radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0) 70%
+          );
+          border-radius: 50%;
+          opacity: 0.8;
+          z-index: -1;
         }
 
         .me-grid-container {
@@ -238,10 +227,6 @@ const langs: Lang[] = [
           background: url('/static/grid-me.png');
           background-size: 20px;
           transform: rotateX(30deg);
-        }
-
-        svg * {
-          fill: 'radial-gradient(at left bottom, #4B4754, #4EBED2)';
         }
 
         body:not(.dark) .me-grid {

@@ -1,9 +1,11 @@
 ---
-import HeaderLink from './HeaderLink.astro';
-import { SITE_TITLE } from '../consts';
-import ThemeSwitcher from './ThemeSwitcher.astro';
-import ProfileImg from './ProfileImg.astro';
-import GoUp from './GoUp.astro';
+import { SITE_TITLE } from 'consts';
+
+import HeaderLink from '@components/HeaderLink.astro';
+
+import ThemeSwitcher from '@components/ThemeSwitcher.astro';
+import ProfileImg from '@components/ProfileImg.astro';
+import GoUp from '@components/GoUp.astro';
 
 type Props = {
   noTitle?: boolean;

@@ -1,0 +1,76 @@
+---
+import Icon from '@components/Icon.astro';
+import Shield from '@containers/Shield.astro';
+
+type Links = {
+  github: string;
+  web: string;
+};
+
+export type Project = {
+  title: string;
+  links: Partial<Links>;
+  descr: string;
+  techs: string[];
+  funcs: string[];
+};
+
+type Props = {
+  project: Project;
+};
+
+const { project } = Astro.props;
+---
+
+<div
+  class="group relative z-10 inline-block rounded-md border-2 border-gray-400 p-5
+                shadow backdrop-blur-sm dark:bg-gray-700/30"
+>
+  <div
+    class="absolute -inset-2 -z-10 hidden rounded-lg border border-gray-900
+                  opacity-75 blur group-hover:block
+                  dark:border-gray-400"
+  >
+  </div>
+  <div class="float-right flex justify-end gap-1">
+    {
+      project.links.github && (
+        <a
+          href={project.links.github}
+          title="Github Link"
+          target="_blank"
+          rel="noopener"
+          class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+        >
+          <Icon icon="github" folder="social" />
+        </a>
+      )
+    }
+    {
+      project.links.github && (
+        <a
+          href={project.links.web}
+          title="Link"
+          target="_blank"
+          rel="noopener"
+          class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+        >
+          <Icon icon="link" folder="social" />
+        </a>
+      )
+    }
+  </div>
+  <h4>{project.title}</h4>
+  <div class="text-sm">
+    <p>{project.descr}</p>
+    <div class="my-2 cursor-default">
+      {project.techs.map((t) => <Shield text={t} />)}
+    </div>
+    <details class="mt-2 block">
+      <summary class="cursor-pointer select-none">More Details</summary>
+      <ul class="ml-2">
+        {project.funcs.map((f) => <li class="my-1 ml-4 list-disc">{f}</li>)}
+      </ul>
+    </details>
+  </div>
+</div>

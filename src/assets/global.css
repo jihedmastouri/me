@@ -26,12 +26,30 @@
     @apply text-gray-200;
   }
 
+  body.dark pre[data-theme='light'],
+  body.dark code[data-theme='light'] {
+    display: none;
+  }
+
+  body:not(.dark) pre[data-theme='dark'],
+  body:not(.dark) code[data-theme='dark'] {
+    display: none;
+  }
+
+  span[data-highlighted-line],
+  span[data-highlighted-chars]{
+    @apply bg-sky-500/10 rounded;
+  }
+  span[data-highlighted-chars]{
+    @apply px-1;
+  }
+
   code {
     @apply whitespace-nowrap rounded-md bg-slate-200 px-1 py-0 text-gray-800 dark:text-slate-800;
   }
 
   pre {
-    @apply rounded-md p-5;
+    @apply rounded-md p-5 dark:shadow-none shadow;
   }
 
   pre > code {

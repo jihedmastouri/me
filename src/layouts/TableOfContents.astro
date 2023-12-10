@@ -22,20 +22,18 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 }, [] as HeadingWithSubheadings[]);
 ---
 
-<nav
-  id="table-of-contents"
-  aria-label="Table Of Contents"
-  class="sticky top-1 pt-4"
->
+<nav id="table-of-contents" aria-label="Table Of Contents" class="sticky top-1 pt-4">
   <ol>
     {
       grouppedHeadings.map((h) => (
-        <li class="py-1 leading-8 group">
-          <a href={`#${h.slug}`} class="group-hover:text-sky-400">{h.text}</a>
+        <li class="group py-1 leading-8">
+          <a href={`#${h.slug}`} class="group-hover:text-sky-400">
+            {h.text}
+          </a>
           {h.subheadings.length > 0 && (
-            <ol class="ml-2 border-l border-double group-hover:border-sky-400 border-zinc-200 pl-2">
+            <ol class="ml-2 border-l border-double border-zinc-200 pl-2 group-hover:border-sky-400">
               {h.subheadings.map((sub) => (
-                <li class="hover:text-sky-400 hover:translate-x-2 hover:-translate-y-1 transition-all">
+                <li class="transition-all hover:-translate-y-1 hover:translate-x-2 hover:text-sky-400">
                   <a href={`#${sub.slug}`}>{sub.text}</a>
                 </li>
               ))}
@@ -48,70 +46,66 @@ const grouppedHeadings = headings.reduce((array, heading) => {
 </nav>
 
 <script>
-run();
+  run();
 
-function run(){
-  const sectionHeadings = document.querySelectorAll(
-    'article h2, article h3'
-  );
+  function run() {
+    const sectionHeadings = document.querySelectorAll('article h2, article h3');
 
-  if (window.location.hash) {
-    highlightHeader(window.location.hash);
-  } else if (isInViewport(sectionHeadings[0])) {
-    highlightHeader(`#${sectionHeadings[0].id}`);
-  }
+    if (window.location.hash) {
+      highlightHeader(window.location.hash);
+    } else if (isInViewport(sectionHeadings[0])) {
+      highlightHeader(`#${sectionHeadings[0].id}`);
+    }
 
-  document.querySelectorAll('#table-of-contents a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('#table-of-contents a[href^="#"]').forEach((anchor) => {
       const selector = anchor.getAttribute('href');
       anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          document.querySelector(selector)!.scrollIntoView({
-              behavior: 'smooth'
-          });
+        e.preventDefault();
+        document.querySelector(selector)!.scrollIntoView({
+          behavior: 'smooth',
+        });
       });
+    });
+  }
+
+  document.addEventListener('astro:after-swap', () => {
+    run();
   });
-}
 
-document.addEventListener('astro:after-swap', () => {
-  run();
-});
+  window.addEventListener('hashchange', () => {
+    const path = window.location.hash;
+    highlightHeader(path);
+  });
 
-window.addEventListener('hashchange', () => {
-  const path = window.location.hash;
-  highlightHeader(path);
-});
+  window.addEventListener('scroll', () => {
+    const sectionHeadings = document.querySelectorAll('article h2, article h3');
 
-window.addEventListener('scroll', () => {
-  const sectionHeadings = document.querySelectorAll(
-    'article h2, article h3'
-  );
-
-  for (const heading of sectionHeadings) {
-    if (isInViewport(heading)) {
-      const headingFragment = `#${heading.id}`;
-      highlightHeader(headingFragment);
-      break;
+    for (const heading of sectionHeadings) {
+      if (isInViewport(heading)) {
+        const headingFragment = `#${heading.id}`;
+        highlightHeader(headingFragment);
+        break;
+      }
     }
-  }
-});
+  });
 
-function isInViewport(element) {
-  const rect = element.getBoundingClientRect();
-  return rect.top - 5 <= window.visualViewport!.height && rect.top > 0;
-}
-
-function highlightHeader(headerId) {
-  if (!headerId) return;
-
-  const classList = ['text-sky-400', 'opacity-75'];
-
-  const tocItem = document.querySelector(`a[href="${headerId}"]`);
-  const previouslyActivatedItem = document.querySelector('.text-sky-400');
-
-  if (previouslyActivatedItem) {
-    previouslyActivatedItem.classList.remove(...classList);
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top - 5 <= window.visualViewport!.height && rect.top > 0;
   }
 
-  tocItem && tocItem.classList.add(...classList);
-}
+  function highlightHeader(headerId) {
+    if (!headerId) return;
+
+    const classList = ['text-sky-400', 'opacity-75'];
+
+    const tocItem = document.querySelector(`a[href="${headerId}"]`);
+    const previouslyActivatedItem = document.querySelector('.text-sky-400');
+
+    if (previouslyActivatedItem) {
+      previouslyActivatedItem.classList.remove(...classList);
+    }
+
+    tocItem && tocItem.classList.add(...classList);
+  }
 </script>

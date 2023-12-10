@@ -89,9 +89,9 @@ const langs: Lang[] = [
         ml-[calc(100%-35%)] mt-[35%]
         h-[50%] w-12
         rotate-45 rounded
-        bg-sky-400 opacity-20
-        blur-2xl dark:bg-white
-        dark:opacity-10"
+        bg-sky-400
+        opacity-20 blur-2xl
+        dark:bg-white dark:opacity-10"
       >
       </div>
       <section id="hero">
@@ -152,27 +152,33 @@ const langs: Lang[] = [
         </div>
       </section>
 
-      <section class="relative my-2">
+      <section class="relative my-24">
         <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
         <div
           id="prjt"
           class="relative grid grid-cols-1 items-baseline gap-6 md:grid-cols-2 lg:grid-cols-3"
         >
-          {projects.map((p,index) => <ProjectCard project={p} id={index} />)}
+          {projects.map((p, index) => <ProjectCard project={p} id={index} />)}
         </div>
       </section>
-      <section class="projects relative my-2">
-        <div class="grid w-full md:grid-cols-2 lg:grid-cols-3 gap-2">
-          <h2 class="md:col-span-2 text-5xl">Work Experience</h2>
+
+      <section class="projects mb-24 align-top">
+        <div class="grid w-full gap-2 md:grid-cols-2 lg:grid-cols-3">
+          <h2 class="my-auto text-5xl md:col-span-2">Work Experience</h2>
           {
             jobs.map((job, index) => (
               <>
-                <div class="border p-5">
+                <div
+                  class:list={[
+                    'border p-5 odd:bg-neutral-200/50 odd:dark:bg-sky-100/10',
+                    { 'max-lg:bg-neutral-200/50 max-lg:dark:bg-sky-100/10': index == 0 },
+                  ]}
+                >
                   <h2>{job.name}</h2>
                   <h3>{job.role}</h3>
                   <p class="text-sm text-gray-500">{job.loc}</p>
                 </div>
-                {index == 0 && <span class="max-lg:hidden"></span>}
+                {index == 0 && <span class="max-lg:hidden" />}
               </>
             ))
           }

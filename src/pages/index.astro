@@ -20,30 +20,30 @@ if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) 
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body class="h-screen flex flex-col md:justify-center">
-        <Header />
-        <main class="mx-auto max-w-screen-lg px-5">
-          <h1 class="mt-10 font-mono text-4xl">Would you kindly,</h1>
-          <div class="my-10 sm:ml-14">
-            <p>
-              My name is <b>Jihed MASTOURI</b>, {age} y/o, and you can call me <em><b>Mj</b></em>
-            </p>
-            <p>
-              If you're here for my craft; I am a <code>Software Engineer</code> and an <code
-                >Open Source</code
-              >
-               enthusias. Here's my <a href="/about" class="text-sky-400">online resume</a>.
-            </p>
-            <p>I like playing video games or watching movies/anime for fun.</p>
-            <p>
-              Sometimes, I take pictures: <a href="/photos" class="text-sky-400">Photography</a>
-            </p>
-            <p>Take care, now.</p>
-            <p class="whitespace-nowrap text-right italic text-gray-500 dark:text-gray-300">
-              - <b>{SITE_TITLE}</b>.me
-            </p>
-          </div>
-        </main>
-        <Footer />
+  <body class="flex h-screen flex-col md:justify-center">
+    <Header />
+    <main class="mx-auto max-w-screen-lg px-5">
+      <h1 class="mt-10 font-mono text-4xl">Would you kindly,</h1>
+      <div class="my-10 sm:ml-14">
+        <p>
+          My name is <b>Jihed MASTOURI</b>, {age} y/o, and you can call me <em><b>Mj</b></em>
+        </p>
+        <p>
+          If you're here for my craft; I am a <code>Software Engineer</code> and an <code
+            >Open Source</code
+          >
+           enthusias. Here's my <a href="/about" class="text-sky-400">online resume</a>.
+        </p>
+        <p>I like playing video games or watching movies/anime for fun.</p>
+        <p>
+          Sometimes, I take pictures: <a href="/photos" class="text-sky-400">Photography</a>
+        </p>
+        <p>Take care, now.</p>
+        <p class="whitespace-nowrap text-right italic text-gray-500 dark:text-gray-300">
+          - <b>{SITE_TITLE}</b>.me
+        </p>
+      </div>
+    </main>
+    <Footer />
   </body>
 </html>

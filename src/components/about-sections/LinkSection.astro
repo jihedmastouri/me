@@ -1,0 +1,26 @@
+---
+import Icon from '@components/Icon.astro';
+import links from '../../data/social.json';
+---
+
+<section class="mt-5 text-center transition ease-in-out">
+  <h2 class="text-3xl">Let's Connect:</h2>
+
+  <div class="my-5 flex justify-center gap-10">
+    {
+      links.map((link) => {
+        return (
+          <a
+            href={link.url}
+            title={link.name}
+            target="_blank"
+            rel="noopener"
+            class="h-7 w-7 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+          >
+            <Icon icon={link.image} folder="social" />
+          </a>
+        );
+      })
+    }
+  </div>
+</section>

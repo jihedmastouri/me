@@ -1,0 +1,190 @@
+---
+import Icon from '@components/Icon.astro';
+
+const skillsArray = [
+  {
+    name: 'skill-web',
+    title: 'Web Dev',
+    styles: 'translate-x-4 translate-y-6 -rotate-6',
+    color: '#f59e0b',
+  },
+  {
+    name: 'skill-full',
+    title: 'Full Stack',
+    styles: 'sm:translate-x-4 translate-y-2 whitespace-nowrap',
+    color: '#10b981',
+  },
+  {
+    name: 'skill-design',
+    title: 'Design',
+    styles: 'relative translate-x-16 -translate-y-8 rotate-6 max-md:translate-y-8',
+    color: '#f472b6',
+  },
+  {
+    name: 'skill-backend',
+    title: 'Backend Engineering',
+    styles: 'translate-y-8 md:translate-x-8 rotate-6',
+    color: '#0ea5e9',
+  },
+  {
+    name: 'skill-tools',
+    title: 'Tools & Ops',
+    styles: 'translate-x-24 translate-y-8 -rotate-4 whitespace-nowrap',
+    color: '#a855f7',
+  },
+] as const;
+
+const skillsColrs = skillsArray.map((el) => ({ name: el.name, color: el.color }));
+
+type Skills = (typeof skillsArray)[number]['name'];
+
+type Lang = {
+  name: string;
+  type: Skills[];
+};
+
+const langs: Lang[] = [
+  { name: 'bash', type: ['skill-backend', 'skill-full'] },
+  { name: 'go', type: ['skill-backend', 'skill-full'] },
+  { name: 'py', type: ['skill-backend', 'skill-full'] },
+  { name: 'ts', type: ['skill-web', 'skill-backend', 'skill-full'] },
+  { name: 'docker', type: ['skill-tools', 'skill-full'] },
+  { name: 'linux', type: ['skill-tools', 'skill-full'] },
+  { name: 'node', type: ['skill-web', 'skill-backend', 'skill-full'] },
+  { name: 'react', type: ['skill-web', 'skill-full'] },
+  { name: 'tailwindcss', type: ['skill-web', 'skill-design', 'skill-full'] },
+  { name: 'git', type: ['skill-tools', 'skill-full'] },
+  { name: 'pgsql', type: ['skill-tools', 'skill-backend', 'skill-full'] },
+  { name: 'aws', type: ['skill-tools', 'skill-full'] },
+  { name: 'next', type: ['skill-web', 'skill-full'] },
+  { name: 'supabase', type: ['skill-tools', 'skill-full'] },
+  { name: 'mongodb', type: ['skill-tools', 'skill-backend', 'skill-full'] },
+];
+---
+
+<section id="hero">
+  <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
+    <div class="p-0">
+      <h1 class="mb-2 text-5xl">About Me</h1>
+      <p>
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
+        ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
+        ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
+        ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat
+      </p>
+    </div>
+    <div
+      class="relative m-auto grid max-h-[500px] max-w-[500px] select-none grid-cols-3 gap-8
+          text-xl tracking-wider max-sm:mt-5 md:text-3xl"
+    >
+      {
+        skillsArray.map((skill) => (
+          <div class={`${skill.styles} group`}>
+            {skill.name == 'skill-design' && (
+              <span
+                class="absolute -top-6 left-8 -z-10 hidden rotate-12 whitespace-nowrap text-sm"
+                id="prob-not"
+              >
+                (probably not)
+              </span>
+            )}
+            <h4 id={skill.name}>{skill.title}</h4>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div
+    class="me-grid-container flex min-h-[200px] flex-wrap content-center items-center justify-center
+          gap-5 p-5 pb-3 md:gap-x-28"
+  >
+    {
+      langs.map((lang) => (
+        <Icon
+          folder="lang"
+          icon={lang.name}
+          class={`h-8 w-8 dark:fill-gray-400 md:h-12 md:w-12 ${lang.type.join(' ')}`}
+        />
+      ))
+    }
+    <div class="me-grid"></div>
+  </div>
+</section>
+
+<script lang="text/javascript" define:vars={{ skillsColrs }}>
+  run();
+
+  window.addEventListener('astro:after-swap', () => {
+    run();
+  });
+
+  function run() {
+    skillsColrs.forEach((el) => {
+      const skill = document.getElementById(el.name);
+      const probNot = document.getElementById('prob-not');
+
+      skill.addEventListener('mouseover', function () {
+        skill.style.transition = '0.5s';
+        skill.style.color = el.color;
+
+        if (el.name == 'skill-design') {
+          skill.style.textDecoration = 'line-through';
+          probNot.classList.remove('hidden');
+        }
+
+        var elementsToChange = document.querySelectorAll(`.${el.name}`);
+        elementsToChange.forEach(function (element, index) {
+          element.style.transition = '0.3s';
+          element.style.fill = el.color;
+          setTimeout(() => {
+            element.classList.add('-translate-y-2');
+          }, index * 20);
+        });
+      });
+
+      skill.addEventListener('mouseout', function () {
+        skill.style.color = '';
+        skill.style.textDecoration = '';
+        probNot.classList.add('hidden');
+        var elementsToChange = document.querySelectorAll(`.${el.name}`);
+        elementsToChange.forEach(function (element, index) {
+          element.style.transition = '0.3s';
+          element.style.fill = '';
+          setTimeout(() => {
+            element.classList.remove('-translate-y-2');
+          }, index * 20);
+        });
+      });
+    });
+  }
+</script>
+
+<style>
+  .me-grid-container {
+    perspective: 25rem;
+    position: relative;
+  }
+
+  .me-grid {
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    max-height: 200px;
+    z-index: -1;
+    background: url('/static/grid-me.png');
+    background-size: 20px;
+    transform: rotateX(30deg);
+  }
+
+  body:not(.dark) .me-grid {
+    filter: invert(1);
+  }
+</style>

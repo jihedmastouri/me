@@ -1,0 +1,27 @@
+---
+import jj from '../../data/jobs.json';
+const jobs = [...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj];
+---
+
+<section class="projects mb-24 align-top">
+  <div class="grid w-full gap-2 md:grid-cols-2 lg:grid-cols-3">
+    <h2 class="my-auto text-5xl md:col-span-2">Work Experience</h2>
+    {
+      jobs.map((job, index) => (
+        <>
+          <div
+            class:list={[
+              'border p-5 odd:bg-neutral-200/50 odd:dark:bg-sky-100/10',
+              { 'max-lg:bg-neutral-200/50 max-lg:dark:bg-sky-100/10': index == 0 },
+            ]}
+          >
+            <h2>{job.name}</h2>
+            <h3>{job.role}</h3>
+            <p class="text-sm text-gray-500">{job.loc}</p>
+          </div>
+          {index == 0 && <span class="max-lg:hidden" />}
+        </>
+      ))
+    }
+  </div>
+</section>

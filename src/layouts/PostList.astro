@@ -1,23 +1,24 @@
 ---
 import { type CollectionEntry } from 'astro:content';
-import { slide } from 'astro:transitions';
 
-import { SITE_TITLE, SITE_DESCRIPTION, CATEGS } from 'src/consts';
-import { tags } from 'src/utils';
+import { SITE_TITLE, SITE_DESCRIPTION, CATEGS } from 'consts';
+import { tags, timeToRead } from 'utils';
 
-import BaseHead from '@components/BaseHead.astro';
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
+import BaseHead from '@layouts/BaseHead.astro';
+import Header from '@layouts/Header.astro';
+import Footer from '@layouts/Footer.astro';
+
 import FormattedDate from '@components/FormattedDate.astro';
 import Icon from '@components/Icon.astro';
-import Shield from '@components/Shield.astro';
 import Paginator from '@components/Paginator.astro';
-import Card from '@components/Card.astro';
+import WeirdButton from '@components/WeirdButton.astro';
+
+import Shield from '@containers/Shield.astro';
+import Card from '@containers/Card.astro';
 
 type colEntry = CollectionEntry<'blog'>;
 
 const { selectedTag, selectedCateg, page, basePath } = Astro.props;
-
 ---
 
 <!doctype html>
@@ -27,34 +28,45 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
   </head>
   <body>
     <Header />
-    <div class="mx-auto box-border grid max-w-screen-xl px-2 md:grid-cols-4 grid-cols-1">
-      <main class="px-1 col-span-1 md:col-span-3 order-2 md:order-1">
+    <div class="mx-auto box-border grid max-w-screen-xl grid-cols-1 px-2 md:grid-cols-4">
+      <main class="order-2 col-span-1 px-1 md:order-1 md:col-span-3">
         <section>
+          {
+            page.data.length == 0 && (
+              <div class="flex flex-col items-center pt-5">
+                <img src="/static/dead.png" aria-hidden width="75" height="75" />
+                <p class="mt-3"> No posts under this... :( </p>
+                <a href="https://www.flaticon.com/free-icons/shiba-inu" title="shiba inu icons">
+                  <small class="text-xs opacity-50">Shiba icon: AomAm - Flaticon</small>
+                </a>
+              </div>
+            )
+          }
           <ul>
             {
               page.data.map((post: colEntry) => (
                 <>
-                  <li
-                    class="group my-3 box-border rounded-md p-2
-                            hover:bg-slate-100 dark:hover:bg-slate-700"
-                  >
+                  <li class="group my-3 box-border rounded-md p-2 backdrop-blur hover:bg-slate-100 dark:hover:bg-gray-700/50">
                     <a href={`/blog/${post.slug}/`} class="h-full w-full">
-                      <h3 class="my-0 text-3xl group-hover:text-sky-500">
+                      <h3
+                        class="my-0 text-3xl group-hover:text-sky-500"
+                        transition:name="post-title"
+                      >
                         {post.data.title}
                       </h3>
-                      <p class="mb-3 text-sm text-gray-500">
-                        <Icon
-                          icon="date"
-                          class="m-0 inline h-5 w-5 fill-gray-500"
-                        />
-                        Created: <FormattedDate date={post.data.pubDate} />
+                      <p class="mb-1 flex items-center text-sm text-gray-500">
+                        <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
+                        Published on: <FormattedDate date={post.data.pubDate} />
                         {post.data.updatedDate && (
                           <span>
                             {' '}
-                            | Last update:{' '}
-                            <FormattedDate date={post.data.updatedDate} />
+                            | Last updated on: <FormattedDate date={post.data.updatedDate} />{' '}
                           </span>
                         )}
+                      </p>
+                      <p class="mb-3 flex items-center text-sm text-gray-500">
+                        <Icon icon="clock" class="m-0 inline h-5 w-5 fill-gray-500" />
+                        Reading time: {timeToRead(post.body) || 1} minutes
                       </p>
                       <p>{post.data.description}</p>
                     </a>
@@ -66,79 +78,72 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
           </ul>
         </section>
         {
-        page.totalPages > 1 && (
-          <section class="mt-4">
-            <Paginator
-              length={page.lastPage}
-              currentUrl={page.url.current}
-              currentPage={page.currentPage}
-              firstUrl={`${basePath}`}
-              prevUrl={page.url.prev}
-              nextUrl={page.url.next}
-              lastUrl={`${basePath}/${page.lastPage}`}
-            />
-          </section>
+          page.totalPages > 1 && (
+            <section class="mt-4">
+              <Paginator
+                length={page.lastPage}
+                currentUrl={page.url.current}
+                currentPage={page.currentPage}
+                firstUrl={`${basePath}`}
+                prevUrl={page.url.prev}
+                nextUrl={page.url.next}
+                lastUrl={`${basePath}/${page.lastPage}`}
+              />
+            </section>
           )
         }
       </main>
-        <side
-          class="col-span-1 md:order-2 order-1"
-          transition:animate={slide({direction: 'right'})}
-          >
+      <side class="order-1 col-span-1 md:order-2">
+        <Card>
           {
             (selectedCateg || selectedTag) && (
-              <p class="text-sm mb-2 text-center">
-                👈 <a class="hover:text-sky-500 hover:underline" href="/blog">
-                  Clear/Go back to Blog
-                </a>
-              </p>
+              <>
+                <h3 class="pt-3 text-center text-2xl">{`${selectedCateg ? selectedCateg : ''}`}</h3>
+                <h4 class="py-2 text-center text-xl">
+                  {`${selectedTag ? '#' + selectedTag : ''}`}
+                </h4>
+                <hr />
+              </>
             )
           }
-          <Card>
+          <h4 class="my-2">Categories:</h4>
+          <div class="flex flex-wrap items-center justify-center gap-2 text-center">
             {
-              (selectedCateg || selectedTag) && (
-                <>
-                  <h3 class="text-2xl text-center" >
-                    {`${selectedCateg ? selectedCateg : '' }${selectedTag ? '#' + selectedTag :''}`}
-                  </h3>
-                  <hr />
-                </>
-              )
-            }
-            <h4>Categories:</h4>
-            <div class="flex flex-wrap items-center justify-center gap-2 text-center">
-              {
-                CATEGS.map((categ) => (
-                <a
-                  class={`relative ${(selectedCateg === categ) && 'pointer-events-none'}`}
+              CATEGS.map((categ) => (
+                <WeirdButton
                   href={`/blog/categs/${categ}`}
-                >
-                  <span class="absolute top-0 left-0 mt-1 ml-1 h-full w-full rounded bg-black dark:bg-slate-50"></span>
-                  <span
-                    class={
-                      `fold-bold relative inline-block h-full w-full rounded border-2
-                      border-black px-3 py-1 text-base font-bold text-black
-                      transition duration-100 hover:bg-sky-300 hover:text-white
-                      hover:dark:bg-sky-300 ${(selectedCateg === categ) ?
-                      'bg-sky-300 dark:bg-sky-300' : 'bg-white'}`
-                    }
-                  >{categ}</span>
-                </a>
-                ))
-              }
-            </div>
-            <h4 class="my-2"> {selectedTag? 'Choose Another Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:' } </h4>
-            <div class="flex flex-wrap text-xs">
-              {tags.map((tag) => (
+                  text={categ}
+                  condition={selectedCateg === categ}
+                />
+              ))
+            }
+          </div>
+          <h4 class="mb-2 mt-3">
+            {selectedTag ? 'Filter By Tag:' : selectedCateg ? 'Filter by Tag:' : 'Tags:'}
+          </h4>
+          <div class="flex flex-wrap text-xs">
+            {
+              tags.map((tag) => (
                 <a
-                  href={`/blog${ selectedCateg ? '/categs/' + selectedCateg : '' }/tags/${tag}`}
-                  class="hover:opacity-90 mb-3 opacity-100"
+                  href={`/blog${selectedCateg ? '/categs/' + selectedCateg : ''}/tags/${tag}`}
+                  class={`mb-3 opacity-100 hover:opacity-90 `}
                 >
-                  <Shield text={'#' + tag} />
+                  <Shield text={'#' + tag} class={`${selectedTag === tag && 'bg-sky-200'}`} />
                 </a>
-              ))}
-            </div>
-          </Card>
+              ))
+            }
+          </div>
+        </Card>
+        {
+          (selectedCateg || selectedTag) && (
+            <p class="mt-4 text-center text-sm">
+              👈{' '}
+              <a class="hover:text-sky-500 hover:underline" href="/blog">
+                Clear/Go back to Blog
+              </a>
+            </p>
+          )
+        }
       </side>
     </div>
     <Footer />

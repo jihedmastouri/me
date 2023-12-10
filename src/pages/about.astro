@@ -1,24 +1,33 @@
 ---
-import BaseHead from '@components/BaseHead.astro';
-import Header from '@components/Header.astro';
-import Footer from '@components/Footer.astro';
+import BaseHead from '@layouts/BaseHead.astro';
+import Header from '@layouts/Header.astro';
+import Footer from '@layouts/Footer.astro';
 
-import { SITE_TITLE } from 'src/consts';
+import LightEffect from '@components/about-sections/LightEffect.astro';
+import HeroSection from '@components/about-sections/HeroSection.astro';
+import ProjectsSection from '@components/about-sections/ProjectsSection.astro';
+import WorkSection from '@components/about-sections/WorkSection.astro';
+import LinkSection from '@components/about-sections/LinkSection.astro';
+
+import { SITE_TITLE } from 'consts';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead
-      title={`${SITE_TITLE} | About Me`}
-      description="My story as developer"
-    />
+    <BaseHead title={`${SITE_TITLE} | About Me`} description="My story as developer" />
   </head>
   <body>
-    <Header />
-    <main class="mx-auto max-w-screen-md">
-      <h1 class="text-4xl">About Me</h1>
+    <Header noTitle />
+
+    <main class="relative mx-auto mt-16 w-[80vw] p-1 lg:max-w-screen-xl lg:p-5">
+      <LightEffect />
+      <HeroSection />
+      <LinkSection />
+      <ProjectsSection />
+      <WorkSection />
     </main>
+
     <Footer />
   </body>
 </html>

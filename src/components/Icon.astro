@@ -8,11 +8,15 @@ type Props = {
 
 const { icon, folder, ...attributes } = Astro.props;
 
-const { default: innerHTML } = await import(
-  folder
-    ? `../assets/icons/${folder}/${icon}.svg?raw`
-    : `../assets/icons/${icon}.svg?raw`
-);
+let innerHTML: string | undefined;
+try {
+  const content = await import(
+    folder ? `../assets/icons/${folder}/${icon}.svg?raw` : `../assets/icons/${icon}.svg?raw`
+  );
+  innerHTML = content.default;
+} catch (e) {
+  console.error(`Icon ${icon} not found in ${folder}`);
+}
 ---
 
-<svg set:html={innerHTML} {...attributes} aria-hidden />
+<span set:html={innerHTML} {...attributes} aria-hidden />

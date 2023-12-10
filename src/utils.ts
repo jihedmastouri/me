@@ -18,4 +18,4 @@ export const timeToRead = (content: string) => {
 
   const readTime = Math.ceil(minutes);
   return readTime;
-}
+};

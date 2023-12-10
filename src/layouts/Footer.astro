@@ -1,0 +1,52 @@
+---
+import Icon from '@components/Icon.astro';
+import links from 'data/social.json';
+const today = new Date();
+---
+
+<footer class="my-5 text-gray-400">
+  <div class="flex justify-center gap-2">
+    {
+      links.map((link) => {
+        return (
+          <a
+            href={link.url}
+            title={link.name}
+            target="_blank"
+            rel="noopener"
+            class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+          >
+            <Icon icon={link.image} folder="social" />
+          </a>
+        );
+      })
+    }
+  </div>
+
+  <div class="mt-2 text-center text-sm">&copy; {today.getFullYear()}</div>
+
+  <div class="flex items-center justify-center text-xs max-sm:flex-col sm:gap-3">
+    <div class="text-right sm:w-[45%]">
+      <span>Content:</span>
+      <a
+        class="underline hover:text-sky-500"
+        href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a
+      >
+    </div>
+    <span class="max-sm:hidden">|</span>
+    <div class="sm:w-[45%]">
+      <span>Website:</span>
+      <a class="underline hover:text-sky-500" href="https://github.com/jihedmastouri/me"
+        >MIT License</a
+      >
+    </div>
+  </div>
+
+  <div class="text-center text-xs sm:text-sm">
+    This website respects your privacy. Here's our <a
+      class="underline hover:text-sky-500"
+      href="/policy"
+      class="text-sky-400">Policy</a
+    >
+  </div>
+</footer>

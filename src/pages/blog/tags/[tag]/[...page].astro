@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import PostList from '@layouts/PostList.astro';
-import { tags } from 'src/utils';
+import { tags } from 'utils';
 
 export async function getStaticPaths({ paginate }) {
   const posts = (await getCollection('blog')).sort(

@@ -2,16 +2,17 @@
 import PostList from '@layouts/PostList.astro';
 import { getCollection } from 'astro:content';
 
-import { CATEGS } from 'src/consts';
-import { tags } from 'src/utils';
+import { CATEGS } from 'consts';
+import { tags } from 'utils';
 
 export async function getStaticPaths({ paginate }) {
   const posts = (await getCollection('blog')).sort(
     (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
   );
-  return CATEGS.flatMap((categ) => tags.flatMap((tag) => {
+  return CATEGS.flatMap((categ) =>
+    tags.flatMap((tag) => {
       const filteredPosts = posts.filter((post) => {
-        return post.data.category === categ && post.data.tags?.includes(tag)
+        return post.data.category === categ && post.data.tags?.includes(tag);
       });
       return paginate(filteredPosts, {
         params: { categ, tag },
@@ -27,9 +28,4 @@ const params = Astro.params;
 const basePath = `/blog/categs/${params.categ}/tags/${params.tag}/`;
 ---
 
-<PostList
-  page={page}
-  basePath={basePath}
-  selectedCateg={params.categ}
-  selectedTag={params.tag}
-/>
+<PostList page={page} basePath={basePath} selectedCateg={params.categ} selectedTag={params.tag} />

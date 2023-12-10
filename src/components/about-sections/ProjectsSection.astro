@@ -1,0 +1,16 @@
+---
+import ProjectCard from '@containers/ProjectCard.astro';
+import projs from '../../data/projects.json';
+
+const projects = [...projs, ...projs, ...projs, ...projs, ...projs, ...projs];
+---
+
+<section class="relative mb-32 mt-24">
+  <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
+  <div
+    id="prjt"
+    class="relative grid grid-cols-1 items-baseline gap-6 md:grid-cols-2 lg:grid-cols-3"
+  >
+    {projects.map((p, index) => <ProjectCard project={p} id={index} />)}
+  </div>
+</section>

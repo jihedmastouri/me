@@ -1,0 +1,145 @@
+---
+import Icon from '@components/Icon.astro';
+import Shield from '@containers/Shield.astro';
+
+type Links = {
+  github: string;
+  web: string;
+};
+
+export type Project = {
+  title: string;
+  links: Partial<Links>;
+  descr: string;
+  techs: string[];
+  funcs: string[];
+};
+
+type Props = {
+  project: Project;
+  id: number;
+};
+
+const { project, id } = Astro.props;
+
+const flipperId = `myFlipper-${id}`;
+---
+
+<div class="flip-container">
+  <div
+    id={flipperId}
+    class="flipper group relative z-10 inline-block rounded-md border-2 border-gray-400 p-5
+       shadow backdrop-blur-sm dark:bg-gray-700/20"
+  >
+    <div
+      class="absolute -inset-1 -z-10 hidden rounded-lg border border-gray-900
+    opacity-75 blur group-hover:block dark:border-gray-400"
+    >
+    </div>
+    <div class="flip-side front">
+      <div class="float-right flex justify-end gap-1">
+        {
+          project.links.github && (
+            <a
+              href={project.links.github}
+              title="Github Link"
+              target="_blank"
+              rel="noopener"
+              class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+            >
+              <Icon icon="github" folder="social" />
+            </a>
+          )
+        }
+        {
+          project.links.github && (
+            <a
+              href={project.links.web}
+              title="Link"
+              target="_blank"
+              rel="noopener"
+              class="h-5 w-5 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+            >
+              <Icon icon="link" folder="social" />
+            </a>
+          )
+        }
+      </div>
+      <h4>{project.title}</h4>
+      <div class="text-sm">
+        <p>{project.descr}</p>
+        <div class="my-2 cursor-default">
+          {project.techs.map((t) => <Shield text={t} />)}
+        </div>
+        <div class="btn float-right cursor-pointer select-none">More Details &gt;&gt;</div>
+      </div>
+    </div>
+
+    <div class="flip-side back">
+      <div class="content text-sm">
+        <ul class="m-auto h-full w-11/12 overflow-x-hidden overflow-y-scroll">
+          {project.funcs.map((f) => <li class="my-1 ml-4 list-disc">{f}</li>)}
+        </ul>
+        <div class="btn float-right cursor-pointer select-none">&lt;&lt; Back</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .flip-container {
+    perspective: 1000px;
+    position: relative;
+    backface-visibility: hidden;
+  }
+
+  .flipper {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    transform-origin: center center;
+    transform: rotateY(360deg);
+    width: 100%;
+    height: 100%;
+  }
+
+  .flipped {
+    transform: rotateY(180deg);
+  }
+
+  .back .content {
+    transform: rotateY(-180deg);
+  }
+
+  .back ul::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  .back ul::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  .flipped .front {
+    display: none;
+  }
+
+  .flipper:not(.flipped) .back {
+    display: none;
+  }
+</style>
+
+<script define:vars={{ flipperId }}>
+  const flipper = document.getElementById(flipperId);
+
+  flipper.querySelectorAll('.btn')[0].addEventListener('click', function () {
+    const front = flipper.querySelector('.front');
+    const backContent = flipper.querySelector('.back .content');
+    const frontHeight = front.clientHeight;
+
+    flipper.classList.toggle('flipped');
+    backContent.style.height = `${frontHeight}px`;
+  });
+
+  flipper.querySelectorAll('.btn')[1].addEventListener('click', function () {
+    flipper.classList.toggle('flipped');
+  });
+</script>

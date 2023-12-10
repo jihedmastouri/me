@@ -19,10 +19,29 @@
 
   body.dark {
     background-image: url('/static/bg-dark.png');
+    background-color: #15181f;
   }
 
   body.dark {
-    @apply bg-slate-900 text-gray-200;
+    @apply text-gray-200;
+  }
+
+  body.dark pre[data-theme='light'],
+  body.dark code[data-theme='light'] {
+    display: none;
+  }
+
+  body:not(.dark) pre[data-theme='dark'],
+  body:not(.dark) code[data-theme='dark'] {
+    display: none;
+  }
+
+  span[data-highlighted-line],
+  span[data-highlighted-chars]{
+    @apply bg-sky-500/10 rounded;
+  }
+  span[data-highlighted-chars]{
+    @apply px-1;
   }
 
   code {
@@ -30,7 +49,7 @@
   }
 
   pre {
-    @apply rounded-md p-5;
+    @apply rounded-md p-5 dark:shadow-none shadow;
   }
 
   pre > code {
@@ -101,7 +120,6 @@
     top: 0;
     left: -5px;
   }
-
 
   li > p {
     display: inline;

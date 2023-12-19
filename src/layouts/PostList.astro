@@ -54,21 +54,21 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
                       >
                         {post.data.title}
                       </h3>
-                      <p class="mb-1 flex items-center text-sm text-gray-500">
-                        <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
-                        Published on: <FormattedDate date={post.data.pubDate} />
-                        {post.data.updatedDate && (
-                          <span>
-                            {' '}
-                            | Last updated on: <FormattedDate date={post.data.updatedDate} />{' '}
-                          </span>
-                        )}
+                      <p class="mb-1 flex items-center text-xs text-gray-500">
+                        <Icon icon="date" class="m-0 inline h-4 w-4 fill-gray-500" /> Published on:
+                        <FormattedDate date={post.data.pubDate} />
                       </p>
-                      <p class="mb-3 flex items-center text-sm text-gray-500">
-                        <Icon icon="clock" class="m-0 inline h-5 w-5 fill-gray-500" />
-                        Reading time: {timeToRead(post.body) || 1} minutes
+                      {post.data.updatedDate && (
+                        <p class="mb-1 flex items-center text-xs text-gray-500">
+                          <Icon icon="pen" class="m-0 inline h-4 w-4 fill-gray-500" /> Last updated
+                          on: <FormattedDate date={post.data.updatedDate} />
+                        </p>
+                      )}
+                      <p class="mb-3 flex items-center text-xs text-gray-500">
+                        <Icon icon="clock" class="m-0 inline h-4 w-4 fill-gray-500" /> Reading time:
+                        {timeToRead(post.body) || 1} minutes
                       </p>
-                      <p>{post.data.description}</p>
+                      <p class="text-sm">{post.data.description}</p>
                     </a>
                   </li>
                   <hr class="my-2 h-0 opacity-50" />

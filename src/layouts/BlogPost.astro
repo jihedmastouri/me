@@ -53,15 +53,15 @@ const link = Astro.url;
               <div class="flex items-center">
                 <Icon icon="date" class="m-0 inline h-5 w-5 fill-gray-500" />
                  Published on: <FormattedDate date={pubDate} />
-                {
-                  updatedDate && (
-                    <span>
-                      {' '}
-                      | Last updated on: <FormattedDate date={updatedDate} />{' '}
-                    </span>
-                  )
-                }
               </div>
+              {
+                updatedDate && (
+                  <div class="flex items-center">
+                    <Icon icon="pen" class="m-0 inline h-5 w-5 fill-gray-500" /> Last updated on:{' '}
+                    <FormattedDate date={updatedDate} />
+                  </div>
+                )
+              }
               {
                 readingTime && (
                   <div class="flex items-center">

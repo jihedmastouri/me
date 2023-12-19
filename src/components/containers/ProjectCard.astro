@@ -29,11 +29,11 @@ const flipperId = `myFlipper-${id}`;
   <div
     id={flipperId}
     class="flipper group relative z-10 inline-block rounded-md border-2 border-gray-400 p-5
-       shadow backdrop-blur-sm dark:bg-gray-700/20"
+       shadow dark:bg-gray-700/20"
   >
     <div
-      class="absolute -inset-1 -z-10 hidden rounded-lg border border-gray-900
-    opacity-75 blur group-hover:block dark:border-gray-400"
+      class="absolute -inset-1 -z-10 hidden rounded-lg border border-gray-700
+    opacity-50 blur group-hover:block dark:border-gray-400"
     >
     </div>
     <div class="flip-side front">
@@ -136,10 +136,12 @@ const flipperId = `myFlipper-${id}`;
     const frontHeight = front.clientHeight;
 
     flipper.classList.toggle('flipped');
+    flipper.classList.remove('backdrop-blur-sm');
     backContent.style.height = `${frontHeight}px`;
   });
 
   flipper.querySelectorAll('.btn')[1].addEventListener('click', function () {
     flipper.classList.toggle('flipped');
+    flipper.classList.add('backdrop-blur-sm');
   });
 </script>

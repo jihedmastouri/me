@@ -24,3 +24,27 @@ import links from '../../data/social.json';
     }
   </div>
 </section>
+
+<style>
+  svg {
+    animation-duration: 3s;
+    animation-name: colorSVG;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+
+  @keyframes colorSVG {
+    from {
+    }
+    to {
+      mask-clip: no-clip;
+      filter: linear-gradient(
+        90deg,
+        rgba(54, 217, 228, 1) 0%,
+        rgba(255, 193, 133, 1) 60%,
+        rgba(217, 157, 241, 1) 100%
+      );
+      background: rgb(54, 217, 228);
+    }
+  }
+</style>

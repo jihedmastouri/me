@@ -34,7 +34,7 @@ const skillsArray = [
   },
 ] as const;
 
-const skillsColrs = skillsArray.map((el) => ({ name: el.name, color: el.color }));
+const skillsColors = skillsArray.map((el) => ({ name: el.name, color: el.color }));
 
 type Skills = (typeof skillsArray)[number]['name'];
 
@@ -117,7 +117,7 @@ const langs: Lang[] = [
   </div>
 </section>
 
-<script lang="text/javascript" define:vars={{ skillsColrs }}>
+<script lang="text/javascript" define:vars={{ skillsColors }}>
   run();
 
   window.addEventListener('astro:after-swap', () => {
@@ -125,34 +125,47 @@ const langs: Lang[] = [
   });
 
   function run() {
-    skillsColrs.forEach((el) => {
+    const animateTracker = {
+      nextAnimation: 0,
+      animationPending: [],
+    };
+
+    reAnimate(animateTracker);
+
+    skillsColors.forEach((el) => {
       const skill = document.getElementById(el.name);
       const probNot = document.getElementById('prob-not');
 
       skill.addEventListener('mouseover', function () {
-        skill.style.transition = '0.5s';
+        skill.style.transition = '0.3s';
         skill.style.color = el.color;
+
+        clearTimeout(animateTracker.nextAnimation);
+        animateTracker.animationPending.forEach((el) => clearTimeout(el));
+
+        skillsColors.forEach((el) => {
+          const tempEls = document.querySelectorAll(`.${el.name}`);
+          const tempSkill = document.getElementById(el.name);
+          off(tempSkill, probNot, tempEls);
+        });
 
         if (el.name == 'skill-design') {
           skill.style.textDecoration = 'line-through';
           probNot.classList.remove('hidden');
         }
 
-        var elementsToChange = document.querySelectorAll(`.${el.name}`);
-        elementsToChange.forEach(function (element, index) {
-          element.style.transition = '0.3s';
-          element.style.fill = el.color;
-          setTimeout(() => {
-            element.classList.add('-translate-y-2');
-          }, index * 20);
-        });
+        const elementsToChange = document.querySelectorAll(`.${el.name}`);
+        on(el, skill, probNot, elementsToChange);
       });
 
       skill.addEventListener('mouseout', function () {
         skill.style.color = '';
         skill.style.textDecoration = '';
         probNot.classList.add('hidden');
-        var elementsToChange = document.querySelectorAll(`.${el.name}`);
+
+        reAnimate(animateTracker);
+
+        const elementsToChange = document.querySelectorAll(`.${el.name}`);
         elementsToChange.forEach(function (element, index) {
           element.style.transition = '0.3s';
           element.style.fill = '';
@@ -162,6 +175,67 @@ const langs: Lang[] = [
         });
       });
     });
+  }
+
+  function animateAll(sleepTime) {
+    const listTimeout = [];
+
+    skillsColors.forEach((el, index) => {
+      const skill = document.getElementById(el.name);
+      const probNot = document.getElementById('prob-not');
+      const elementsToChange = document.querySelectorAll(`.${el.name}`);
+      skill.style.transition = '0.5s';
+
+      const temp1 = setTimeout(() => {
+        on(el, skill, probNot, elementsToChange);
+      }, sleepTime * index);
+      listTimeout.push(temp1);
+
+      const temp2 = setTimeout(
+        () => {
+          off(skill, probNot, elementsToChange);
+        },
+        sleepTime * (index + 1)
+      );
+      listTimeout.push(temp2);
+    });
+
+    return listTimeout;
+  }
+
+  function on(el, skill, probNot, elementsToChange) {
+    skill.style.color = el.color;
+    if (el.name == 'skill-design') {
+      skill.style.textDecoration = 'line-through';
+      probNot.classList.remove('hidden');
+    }
+
+    elementsToChange.forEach(function (element, index) {
+      element.style.transition = '0.5s';
+      element.style.fill = el.color;
+      setTimeout(() => {
+        element.classList.add('-translate-y-2');
+      }, index * 20);
+    });
+  }
+
+  function off(skill, probNot, elementsToChange) {
+    skill.style.color = '';
+    skill.style.textDecoration = '';
+    probNot.classList.add('hidden');
+
+    elementsToChange.forEach(function (element) {
+      element.style.fill = '';
+      element.classList.remove('-translate-y-2');
+    });
+  }
+
+  function reAnimate(animateTracker) {
+    const sleepTime = 2000;
+    animateTracker.animationPending = animateAll(sleepTime);
+    animateTracker.nextAnimation = setTimeout(() => {
+      reAnimate(animateTracker);
+    }, sleepTime * skillsColors.length);
   }
 </script>
 

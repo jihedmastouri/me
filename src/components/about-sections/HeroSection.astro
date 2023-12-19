@@ -118,26 +118,37 @@ const langs: Lang[] = [
 </section>
 
 <script lang="text/javascript" define:vars={{ skillsColors }}>
-  run();
+  const animateTracker = {
+    nextAnimation: 0,
+    animationPending: [],
+  };
+
+  run(animateTracker);
 
   window.addEventListener('astro:after-swap', () => {
-    run();
-  });
-
-  function run() {
-    const animateTracker = {
-      nextAnimation: 0,
-      animationPending: [],
-    };
-
-    reAnimate(animateTracker);
+    clearTimeout(animateTracker.nextAnimation);
+    animateTracker.animationPending.forEach((el) => clearTimeout(el));
 
     skillsColors.forEach((el) => {
+      const tempEls = document.querySelectorAll(`.${el.name}`);
+      const tempSkill = document.getElementById(el.name);
+      off(tempSkill, probNot, tempEls);
+    });
+
+    run(animateTracker);
+  });
+
+  function run(animateTracker) {
+    setTimeout(() => {
+      reAnimate(animateTracker);
+    }, 500);
+
+    skillsColors.forEach((el, skillIndex) => {
       const skill = document.getElementById(el.name);
       const probNot = document.getElementById('prob-not');
 
       skill.addEventListener('mouseover', function () {
-        skill.style.transition = '0.3s';
+        skill.style.transition = '0.5s';
         skill.style.color = el.color;
 
         clearTimeout(animateTracker.nextAnimation);
@@ -163,7 +174,7 @@ const langs: Lang[] = [
         skill.style.textDecoration = '';
         probNot.classList.add('hidden');
 
-        reAnimate(animateTracker);
+        reAnimate(animateTracker, skillIndex + 1);
 
         const elementsToChange = document.querySelectorAll(`.${el.name}`);
         elementsToChange.forEach(function (element, index) {
@@ -177,28 +188,32 @@ const langs: Lang[] = [
     });
   }
 
-  function animateAll(sleepTime) {
+  function animateAll(sleepTime, start) {
     const listTimeout = [];
 
-    skillsColors.forEach((el, index) => {
+    for (let i = start; i < skillsColors.length; i++) {
+      const el = skillsColors[i];
       const skill = document.getElementById(el.name);
       const probNot = document.getElementById('prob-not');
       const elementsToChange = document.querySelectorAll(`.${el.name}`);
       skill.style.transition = '0.5s';
 
-      const temp1 = setTimeout(() => {
-        on(el, skill, probNot, elementsToChange);
-      }, sleepTime * index);
+      const temp1 = setTimeout(
+        () => {
+          on(el, skill, probNot, elementsToChange);
+        },
+        sleepTime * (i - start)
+      );
       listTimeout.push(temp1);
 
       const temp2 = setTimeout(
         () => {
           off(skill, probNot, elementsToChange);
         },
-        sleepTime * (index + 1)
+        sleepTime * (i - start + 1)
       );
       listTimeout.push(temp2);
-    });
+    }
 
     return listTimeout;
   }
@@ -230,12 +245,15 @@ const langs: Lang[] = [
     });
   }
 
-  function reAnimate(animateTracker) {
-    const sleepTime = 2000;
-    animateTracker.animationPending = animateAll(sleepTime);
-    animateTracker.nextAnimation = setTimeout(() => {
-      reAnimate(animateTracker);
-    }, sleepTime * skillsColors.length);
+  function reAnimate(animateTracker, skillIndex = 0) {
+    const sleepTime = 2250;
+    animateTracker.animationPending = animateAll(sleepTime, skillIndex);
+    animateTracker.nextAnimation = setTimeout(
+      () => {
+        reAnimate(animateTracker);
+      },
+      sleepTime * (skillsColors.length - skillIndex)
+    );
   }
 </script>
 

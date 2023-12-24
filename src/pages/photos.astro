@@ -24,16 +24,16 @@ try {
     <BaseHead title={SITE_TITLE} description="Favorite pictures I took through the years" />
   </head>
   <body>
-    <div class="h-screen md:grid md:grid-cols-7">
-      <side class="relative box-border max-sm:fixed max-sm:h-screen md:col-span-2" transition:animate="slide">
+    <div class="h-screen lg:grid lg:grid-cols-7">
+      <side class="relative box-border max-md:fixed max-md:h-screen lg:col-span-2" transition:animate="slide">
         <div
           class="mx-5 flex h-[90%] flex-col items-center justify-center p-2
-            max-sm:mt-[50%] max-sm:h-fit max-sm:rounded-lg
-            max-sm:bg-slate-100 max-sm:bg-opacity-80
-            max-sm:shadow-lg max-sm:dark:bg-gray-800 max-sm:dark:shadow-none"
+            max-md:mt-[50%] max-md:h-fit max-md:rounded-lg
+            max-md:bg-slate-100 max-md:bg-opacity-80
+            max-md:shadow-lg max-md:dark:bg-gray-800/50 max-md:dark:shadow-none"
         >
           <h1 class="text-xl sm:text-4xl">Photography</h1>
-          <q class="max-sm:text-xs">
+          <q class="max-md:text-xs">
             Everyone should have 3 hobbies in life: one to make you money, one to keep you in shape,
             and one to keep you creative.
           </q>
@@ -41,11 +41,11 @@ try {
           <Footer />
         </div>
       </side>
-      <main class="flex flex-wrap justify-end overflow-y-scroll sm:mx-auto md:col-span-5">
+      <main class="flex flex-wrap justify-end lg:mx-auto lg:col-span-5 lg:overflow-y-scroll overflow-y-hidden">
         {
           imgs.map((image) => (
             <Image
-              class="m-0 h-[300px] object-cover p-0 sm:w-1/3"
+              class="m-0 h-[300px] object-cover p-0 lg:w-1/3 md:w-1/2"
               src={image}
               alt=""
               loading="lazy"

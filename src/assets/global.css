@@ -58,17 +58,16 @@
   }
 
   /* Track */
-  ::-webkit-scrollbar-track {
+  *::-webkit-scrollbar-track {
     @apply bg-slate-50 shadow-md dark:bg-slate-800;
   }
 
   /* Handle */
-  ::-webkit-scrollbar-thumb {
+  *::-webkit-scrollbar-thumb {
     @apply rounded-md bg-slate-400;
   }
 
-  ::-webkit-scrollbar,
-  pre::-webkit-scrollbar {
+  *::-webkit-scrollbar, pre::-webkit-scrollbar {
     @apply h-2 w-2;
   }
 

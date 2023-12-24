@@ -117,75 +117,64 @@ const langs: Lang[] = [
   </div>
 </section>
 
-<script lang="text/javascript" define:vars={{ skillsColors }}>
-  const animateTracker = {
+<script define:vars={{ skillsColors }} is:inline>
+  window.animateTracker = {
     nextAnimation: 0,
     animationPending: [],
   };
 
-  run(animateTracker);
-
-  window.addEventListener('astro:after-swap', () => {
-    clearTimeout(animateTracker.nextAnimation);
-    animateTracker.animationPending.forEach((el) => clearTimeout(el));
-
-    skillsColors.forEach((el) => {
-      const tempEls = document.querySelectorAll(`.${el.name}`);
-      const tempSkill = document.getElementById(el.name);
-      off(tempSkill, probNot, tempEls);
-    });
-
-    run(animateTracker);
+  document.addEventListener('astro:page-load', () => {
+    run();
   });
 
-  function run(animateTracker) {
+  document.addEventListener('astro:before-swap', () => {
+    clearTimeout(window.animateTracker.nextAnimation);
+    window.animateTracker.animationPending.forEach((el) => clearTimeout(el));
+    window.animateTracker = {
+      nextAnimation: 0,
+      animationPending: [],
+    };
+  });
+
+  function run() {
     setTimeout(() => {
-      reAnimate(animateTracker);
+      reAnimate();
     }, 500);
 
     skillsColors.forEach((el, skillIndex) => {
       const skill = document.getElementById(el.name);
-      const probNot = document.getElementById('prob-not');
 
       skill.addEventListener('mouseover', function () {
-        skill.style.transition = '0.5s';
-        skill.style.color = el.color;
-
-        clearTimeout(animateTracker.nextAnimation);
-        animateTracker.animationPending.forEach((el) => clearTimeout(el));
-
-        skillsColors.forEach((el) => {
-          const tempEls = document.querySelectorAll(`.${el.name}`);
-          const tempSkill = document.getElementById(el.name);
-          off(tempSkill, probNot, tempEls);
-        });
-
-        if (el.name == 'skill-design') {
-          skill.style.textDecoration = 'line-through';
-          probNot.classList.remove('hidden');
-        }
-
-        const elementsToChange = document.querySelectorAll(`.${el.name}`);
-        on(el, skill, probNot, elementsToChange);
+        clean();
+        on(el, skill);
       });
 
       skill.addEventListener('mouseout', function () {
-        skill.style.color = '';
-        skill.style.textDecoration = '';
-        probNot.classList.add('hidden');
-
-        reAnimate(animateTracker, skillIndex + 1);
-
-        const elementsToChange = document.querySelectorAll(`.${el.name}`);
-        elementsToChange.forEach(function (element, index) {
-          element.style.transition = '0.3s';
-          element.style.fill = '';
-          setTimeout(() => {
-            element.classList.remove('-translate-y-2');
-          }, index * 20);
-        });
+        clean();
+        reAnimate(skillIndex + 1);
       });
     });
+  }
+
+  function clean() {
+    clearTimeout(window.animateTracker.nextAnimation);
+    window.animateTracker.animationPending.forEach((el) => clearTimeout(el));
+
+    skillsColors.forEach((el) => {
+      const tempSkill = document.getElementById(el.name);
+      off(el, tempSkill);
+    });
+  }
+
+  function reAnimate(skillIndex = 0) {
+    const sleepTime = 2250;
+    window.animateTracker.animationPending = animateAll(sleepTime, skillIndex);
+    window.animateTracker.nextAnimation = setTimeout(
+      () => {
+        reAnimate();
+      },
+      sleepTime * (skillsColors.length - skillIndex)
+    );
   }
 
   function animateAll(sleepTime, start) {
@@ -194,13 +183,10 @@ const langs: Lang[] = [
     for (let i = start; i < skillsColors.length; i++) {
       const el = skillsColors[i];
       const skill = document.getElementById(el.name);
-      const probNot = document.getElementById('prob-not');
-      const elementsToChange = document.querySelectorAll(`.${el.name}`);
-      skill.style.transition = '0.5s';
 
       const temp1 = setTimeout(
         () => {
-          on(el, skill, probNot, elementsToChange);
+          on(el, skill);
         },
         sleepTime * (i - start)
       );
@@ -208,7 +194,7 @@ const langs: Lang[] = [
 
       const temp2 = setTimeout(
         () => {
-          off(skill, probNot, elementsToChange);
+          off(el, skill);
         },
         sleepTime * (i - start + 1)
       );
@@ -218,13 +204,17 @@ const langs: Lang[] = [
     return listTimeout;
   }
 
-  function on(el, skill, probNot, elementsToChange) {
+  function on(el, skill) {
+    skill.style.transition = '0.5s';
     skill.style.color = el.color;
-    if (el.name == 'skill-design') {
+
+    const probNot = document.getElementById('prob-not');
+    if (el.name === 'skill-design') {
       skill.style.textDecoration = 'line-through';
       probNot.classList.remove('hidden');
     }
 
+    const elementsToChange = document.querySelectorAll(`.${el.name}`);
     elementsToChange.forEach(function (element, index) {
       element.style.transition = '0.5s';
       element.style.fill = el.color;
@@ -234,26 +224,18 @@ const langs: Lang[] = [
     });
   }
 
-  function off(skill, probNot, elementsToChange) {
+  function off(el, skill) {
     skill.style.color = '';
     skill.style.textDecoration = '';
+
+    const probNot = document.getElementById('prob-not');
     probNot.classList.add('hidden');
 
+    const elementsToChange = document.querySelectorAll(`.${el.name}`);
     elementsToChange.forEach(function (element) {
       element.style.fill = '';
       element.classList.remove('-translate-y-2');
     });
-  }
-
-  function reAnimate(animateTracker, skillIndex = 0) {
-    const sleepTime = 2250;
-    animateTracker.animationPending = animateAll(sleepTime, skillIndex);
-    animateTracker.nextAnimation = setTimeout(
-      () => {
-        reAnimate(animateTracker);
-      },
-      sleepTime * (skillsColors.length - skillIndex)
-    );
   }
 </script>
 

@@ -1,16 +1,37 @@
 ---
 import ProjectCard from '@containers/ProjectCard.astro';
-import projs from '../../data/projects.json';
-
-const projects = [...projs, ...projs, ...projs, ...projs, ...projs, ...projs];
+import projects from '../../data/projects.json';
+const lenThird = Math.floor(projects.length / 3);
+const half = Math.floor(projects.length / 2);
 ---
 
-<section class="relative mb-32 mt-24">
-  <h2 class="my-8 text-center text-5xl">Projects I Worked On</h2>
-  <div
-    id="prjt"
-    class="relative grid grid-cols-1 items-baseline gap-6 md:grid-cols-2 lg:grid-cols-3"
-  >
-    {projects.map((p, index) => <ProjectCard project={p} id={index} />)}
+<section class="my-32 mx-2 w-full">
+  <h2 class="my-8 text-center text-5xl">Projects I Worked On 🫀</h2>
+  <div class="max-2xl:hidden">
+    <div class="flex flex-wrap justify-center gap-6">
+      <div class="flex flex-col gap-6">
+        {projects.slice(0, lenThird + 1).map((p, index) => <ProjectCard project={p} id={index} />)}
+      </div>
+      <div class="flex flex-col gap-6">
+        {
+          projects
+            .slice(lenThird + 1, lenThird * 2 + 2)
+            .map((p, index) => <ProjectCard project={p} id={index} />)
+        }
+      </div>
+      <div class="flex flex-col gap-6">
+        {projects.slice(lenThird * 2 + 2).map((p, index) => <ProjectCard project={p} id={index} />)}
+      </div>
+    </div>
+  </div>
+  <div class="2xl:hidden">
+    <div class="flex flex-wrap justify-center gap-6">
+      <div class="flex flex-col gap-6">
+        {projects.slice(0, half).map((p, index) => <ProjectCard project={p} id={index} />)}
+      </div>
+      <div class="flex flex-col gap-6">
+        {projects.slice(half).map((p, index) => <ProjectCard project={p} id={index} />)}
+      </div>
+    </div>
   </div>
 </section>

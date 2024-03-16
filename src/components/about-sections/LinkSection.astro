@@ -3,7 +3,7 @@ import Icon from '@components/Icon.astro';
 import links from '../../data/social.json';
 ---
 
-<section class="mt-10 text-center transition ease-in-out">
+<section class="mt-10 text-center transition ease-in-out max-w-screen-xl mx-auto">
   <h2 class="text-3xl">Let's Connect:</h2>
 
   <div class="my-5 flex justify-center flex-wrap gap-10">
@@ -15,7 +15,7 @@ import links from '../../data/social.json';
             title={link.name}
             target="_blank"
             rel="noopener"
-            class="h-7 w-7 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
+            class="h-5 w-5 md:h-7 md:w-7 hover:fill-sky-500 dark:fill-gray-200 dark:hover:fill-sky-500"
           >
             <Icon icon={link.image} folder="social" />
           </a>

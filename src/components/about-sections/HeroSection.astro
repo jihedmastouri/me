@@ -1,5 +1,6 @@
 ---
 import Icon from '@components/Icon.astro';
+import ProfileImg from '@components/ProfileImg.astro';
 
 const skillsArray = [
   {
@@ -62,10 +63,13 @@ const langs: Lang[] = [
 ];
 ---
 
-<section id="hero">
+<section id="hero" class="mx-auto max-w-screen-xl">
   <div class="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1">
     <div class="p-0">
-      <h1 class="mb-2 text-5xl">About Me</h1>
+      <div class="flex items-center gap-5 mb-2 ">
+        <ProfileImg />
+        <h1 class="text-3xl">About Me</h1>
+      </div>
       <p>
         Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint
         ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat
@@ -109,7 +113,7 @@ const langs: Lang[] = [
         <Icon
           folder="lang"
           icon={lang.name}
-          class={`h-8 w-8 dark:fill-gray-400 md:h-12 md:w-12 ${lang.type.join(' ')}`}
+          class={`h-5 w-5 dark:fill-gray-400 md:h-8 md:w-8 ${lang.type.join(' ')}`}
         />
       ))
     }
@@ -149,12 +153,12 @@ const langs: Lang[] = [
     skillsColors.forEach((el, skillIndex) => {
       const skill = document.getElementById(el.name);
 
-      skill.addEventListener('mouseover', function () {
+      skill?.addEventListener('mouseover', function () {
         clean();
         on(el, skill);
       });
 
-      skill.addEventListener('mouseout', function () {
+      skill?.addEventListener('mouseout', function () {
         clean();
         reAnimate(skillIndex + 1);
       });
@@ -210,6 +214,7 @@ const langs: Lang[] = [
   }
 
   function on(el, skill) {
+    if (!skill) return;
     skill.style.transition = '0.5s';
     skill.style.color = el.color;
 
@@ -230,6 +235,7 @@ const langs: Lang[] = [
   }
 
   function off(el, skill) {
+    if (!skill) return;
     skill.style.color = '';
     skill.style.textDecoration = '';
 

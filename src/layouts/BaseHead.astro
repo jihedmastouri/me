@@ -54,6 +54,7 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <script>
   colorTheme();
   selectButton();
+  once();
 
   function colorTheme() {
     let theme = localStorage.getItem('theme') ?? 'system';
@@ -90,4 +91,10 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
     colorTheme();
     selectButton();
   });
+
+  function once() {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      colorTheme();
+    });
+  }
 </script>

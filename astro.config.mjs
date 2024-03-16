@@ -18,6 +18,8 @@ const prettyCodeOptions = {
 export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap(), tailwind()],
+  prefetch: true,
+  output: 'static',
   markdown: {
     extendDefaultPlugins: true,
     syntaxHighlight: false,

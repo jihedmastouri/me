@@ -45,6 +45,13 @@ const link = Astro.url;
   <body>
     <Header />
     <div class="mx-auto grid max-w-screen-xl grid-cols-1 gap-4 p-4 md:grid-cols-4">
+      <details class="sticky top-1 bg-[#18181f]/80 backdrop-blur md:hidden z-30">
+        <summary class="rounded-lg border border-gray-800 px-2 py-1 text-lg dark:border-gray-500
+        cursor-pointer" >Table of Contents</summary>
+        <div class="p-4 rounded-lg">
+          <TableOfContents headings={headings} />
+        </div>
+      </details>
       <main class="order-2 md:order-1 md:col-span-3">
         <Article>
           <div class="my-2">
@@ -83,24 +90,7 @@ const link = Astro.url;
         </Article>
 
         <Card>
-          <div class="my-5 flex justify-center gap-2 text-sm">
-            {
-              tags &&
-                tags.map((tag) => (
-                  <a href={`/blog/tags/${tag}`}>
-                    <Shield text={'#' + tag} />
-                  </a>
-                ))
-            }
-          </div>
-
-          <div class="my-5 flex items-center justify-center">
-            <hr class="w-1/3" />
-            <WeirdButton href={`/blog/categs/${category}`} text={category} />
-            <hr class="w-1/3" />
-          </div>
-
-          <div class="flex items-center justify-center gap-12">
+          <div class="flex items-center justify-center gap-12 mt-5">
             <span> share this post:</span>
             <span class="flex items-center justify-center gap-3">
               <a
@@ -149,10 +139,27 @@ const link = Astro.url;
               </a>
             </span>
           </div>
+
+          <div class="my-5 flex items-center justify-center">
+            <hr class="w-1/3" />
+            <WeirdButton href={`/blog/categs/${category}`} text={category} />
+            <hr class="w-1/3" />
+          </div>
+
+          <div class="my-2 flex justify-center gap-2 text-sm">
+            {
+              tags &&
+                tags.map((tag) => (
+                  <a href={`/blog/tags/${tag}`}>
+                    <Shield text={'#' + tag} />
+                  </a>
+                ))
+            }
+          </div>
         </Card>
       </main>
 
-      <side class="order-1 h-full md:order-2 md:col-span-1" transition:animate="slide">
+      <side class="order-1 h-full max-md:hidden" transition:animate="slide">
         <TableOfContents headings={headings} />
       </side>
     </div>

@@ -1,25 +1,20 @@
 ---
-import jj from '../../data/jobs.json';
-const jobs = [...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj, ...jj];
+import jobs from '../../data/jobs.json';
 ---
 
-<section class="projects mb-24 align-top">
+<section class="projects mx-auto mb-24 max-w-screen-xl align-top">
   <div class="grid w-full gap-2 md:grid-cols-2 lg:grid-cols-3">
     <h2 class="my-auto text-5xl md:col-span-2">Work Experience</h2>
     {
-      jobs.map((job, index) => (
+      jobs.map((job) => (
         <>
           <div
-            class:list={[
-              'border p-5 odd:bg-neutral-200/50 odd:dark:bg-sky-100/10',
-              { 'max-lg:bg-neutral-200/50 max-lg:dark:bg-sky-100/10': index == 0 },
-            ]}
+            class='border p-5 odd:bg-neutral-200/50 odd:dark:bg-sky-100/10'
           >
             <h2>{job.name}</h2>
             <h3>{job.role}</h3>
             <p class="text-sm text-gray-500">{job.loc}</p>
           </div>
-          {index == 0 && <span class="max-lg:hidden" />}
         </>
       ))
     }

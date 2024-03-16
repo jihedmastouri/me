@@ -46,8 +46,8 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
             {
               page.data.map((post: colEntry) => (
                 <>
-                  <li class="group my-3 box-border rounded-md p-2 backdrop-blur hover:bg-slate-100 dark:hover:bg-gray-700/50">
-                    <a href={`/blog/${post.slug}/`} class="h-full w-full">
+                  <a href={`/blog/${post.slug}/`} class="h-full w-full">
+                    <li class="group my-3 box-border rounded-md p-2 backdrop-blur hover:bg-slate-100 dark:hover:bg-gray-700/50">
                       <h3
                         class="my-0 text-3xl group-hover:text-sky-500"
                         transition:name="post-title"
@@ -69,8 +69,8 @@ const { selectedTag, selectedCateg, page, basePath } = Astro.props;
                         {timeToRead(post.body) || 1} minutes
                       </p>
                       <p class="text-sm">{post.data.description}</p>
-                    </a>
-                  </li>
+                    </li>
+                  </a>
                   <hr class="my-2 h-0 opacity-50" />
                 </>
               ))
